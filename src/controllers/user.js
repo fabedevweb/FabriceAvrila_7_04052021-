@@ -1,15 +1,10 @@
-const express = require("express");
-const router = express.Router();
-var db = require("../../config/db.config");
-const employeeController = require("../controllers/employee.controller");
+//J'importe le package de chiffrement bcrypt pour notre fonction signup
 const bcrypt = require("bcrypt");
+//J'importe mon package token
 const jwt = require("jsonwebtoken");
-// get all employees
-router.get("/", employeeController.getEmployeeList);
+var db = require("../../config/db.config");
 
-// Créer un nouvel employé
-//router.post("/", employeeController.createNewEmployee);
-router.post("/register", (req, res, next) => {
+exports.signup = (req, res, next) => {
   db.query(
     `SELECT * FROM utilisateur WHERE LOWER(email) = LOWER(${db.escape(
       req.body.email
@@ -46,19 +41,22 @@ router.post("/register", (req, res, next) => {
       }
     }
   );
-});
+};
 
-router.post("/login", (req, res, next) => {
+exports.login = (req, res, next) => {
   db.query(
     `SELECT * FROM utilisateur WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
       // user does not exists
       if (err) {
         throw err;
+        return res.status(400).send({
+          msg: err,
+        });
       }
       if (!result.length) {
         return res.status(401).send({
-          msg: "Email or password is incorrect!",
+          msg: "Username or password is incorrect!",
         });
       }
       // check password
@@ -69,15 +67,28 @@ router.post("/login", (req, res, next) => {
           // wrong password
           if (bErr) {
             throw bErr;
+            return res.status(401).send({
+              msg: "Username or password is incorrect!",
+            });
           }
           if (bResult) {
             const token = jwt.sign(
-              { id: result[0].id },
-              "the-super-strong-secrect",
-              { expiresIn: "1h" }
+              {
+                email: result[0].email,
+                password: result[0].id,
+              },
+              "SECRETKEY",
+              {
+                expiresIn: "7d",
+              }
             );
-            return res.status(40).send({
-              msg: "Username or password is incorrect!",
+            db.query(
+              `UPDATE utilisateur SET email = now() WHERE id = '${result[0].id}'`
+            );
+            return res.status(200).send({
+              msg: "Logged in!",
+              token,
+              user: result[0],
             });
           }
           return res.status(401).send({
@@ -87,11 +98,4 @@ router.post("/login", (req, res, next) => {
       );
     }
   );
-});
-// update employee
-router.put("/:id", employeeController.updateEmployee);
-
-// delete employee
-router.delete("/:id", employeeController.deleteEmployee);
-
-module.exports = router;
+};

@@ -1,6 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+// Path permet à l'API de savoir ou se trouve les images à récupérer
+const path = require("path");
+// import employee routes
+const userRoutes = require("./src/routes/user");
+const thingRoutes = require("./src/routes/thing");
 // create express app
 const app = express();
 
@@ -19,22 +23,23 @@ app.use((req, res, next) => {
   next();
 });
 // parse request data content type application/x-www-form-rulencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+//pp.use(bodyParser.urlencoded({ extended: false }));
 
 // parse request data content type application/json
 app.use(bodyParser.json());
 
-// define root route
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-// import employee routes
-const employeeRoutes = require("./src/routes/employee.route");
+//Importer les images
+// Path permet à l'API de savoir ou se trouve les images à récupérer
+app.use(
+  "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/src/upload",
+  express.static(path.join(__dirname, "upload"))
+);
 
-// create employee routes
-app.use("/api/v1/employee", employeeRoutes);
-
+app.use("/api/auth", userRoutes);
+app.use("/api", thingRoutes);
 // listen to the port
 app.listen(port, () => {
   console.log(`Express is running at port ${port}`);
 });
+
+module.exports = app;
