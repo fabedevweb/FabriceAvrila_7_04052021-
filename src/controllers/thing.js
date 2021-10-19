@@ -6,18 +6,18 @@ exports.createThing = (req, res, next) => {
   const imageUrl = `${req.protocol}://${req.get("host")}/images/${
     req.file.filename
   }`;
-  const likes = req.body.likes;
-  const dislikes = req.body.dislikes;
-
+  const likes = (req.body.likes = 0);
+  const dislikes = (req.body.dislikes = 0);
+  const sql = `INSERT post SET comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
   } else {
-    db.query(
-      `INSERT INTO post (comment, imageUrl, likes, dislikes) VALUES ('${comment}','${imageUrl}', '${likes}', '${dislikes}')`,
-      function(err, result) {
-        return res.send({ message: "File is successfully.", file });
+    db.query(sql, (err) => {
+      if (err) {
+        throw err;
       }
-    );
+      return res.send({ message: "File is successfully.", file });
+    });
   }
 };
 exports.getAllThing = (req, res, next) => {
