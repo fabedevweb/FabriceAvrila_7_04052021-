@@ -11,13 +11,16 @@ const storage = multer.diskStorage({
   //destination dit à multer ou enregistrer le fichier, ici dans le fichier "images"
   destination: (req, file, callback) => {
     //"images" correspond au dossier "images" que j'ai crée dans le dossier backend
-    callback(null, "src");
+    callback(
+      null,
+      "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/src/images"
+    );
   },
   //filename explique à multer quel nom de fichier utiliser pour éviter d'avoir un bug si deux fichiers ont le même nom
   filename: (req, file, callback) => {
     //Je génère ici le nouveau nom pour le fichier
     //Avec name, je crée son nom, ce qui correspond à la partie avant l'extension
-    const name = file.originalname.split(" ").join("_");
+    const name = file.originalname.split("").join("");
     //J'accède à son extension , sa MIME_TYPES envoyée par le frontend
     const extension = MIME_TYPES[file.mimetype];
     //Je crée le filename entier avec un timestamp pour que le fichier soit unique
@@ -25,4 +28,4 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports = multer({ storage: storage }).single("upload");
+module.exports = multer({ storage: storage }).single("image_name");

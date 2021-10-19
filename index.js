@@ -31,8 +31,8 @@ app.use(bodyParser.json());
 //Importer les images
 // Path permet à l'API de savoir ou se trouve les images à récupérer
 app.use(
-  "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/src/upload",
-  express.static(path.join(__dirname, "upload"))
+  "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/src/images",
+  express.static(path.join(__dirname, "images"))
 );
 
 app.use("/api/auth", userRoutes);
