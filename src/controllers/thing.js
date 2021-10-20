@@ -1,4 +1,6 @@
 var db = require("../../config/db.config");
+//Package fs pour supprimer un fichier image en local
+const fs = require("fs");
 
 exports.createThing = (req, res, next) => {
   const file = req.file;
@@ -36,6 +38,7 @@ exports.getOneThing = (req, res, next) => {
     res.end(JSON.stringify(results));
   });
 };
+
 exports.modifyThing = (req, res, next) => {
   const file = req.file;
   const comment = req.body.comment;
@@ -52,5 +55,11 @@ exports.modifyThing = (req, res, next) => {
     return res.send({ message: "Le fichier a été modifié" });
   });
 };
-exports.deleteThing = (req, res, next) => {};
+exports.deleteThing = (req, res, next) => {
+  var sql = "DELETE FROM `post` WHERE `id`=?";
+  db.query(sql, [req.params.id], function(error, results, fields) {
+    if (error) throw error;
+    return res.send({ message: "Le fichier a été supprimé" });
+  });
+};
 exports.likeThing = (req, res, next) => {};
