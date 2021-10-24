@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     //"images" correspond au dossier "images" que j'ai crée dans le dossier backend
     callback(
       null,
-      "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/src/images"
+      "/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/images"
     );
   },
   //filename explique à multer quel nom de fichier utiliser pour éviter d'avoir un bug si deux fichiers ont le même nom
@@ -28,4 +28,4 @@ const storage = multer.diskStorage({
   },
 });
 
-module.exports = multer({ storage: storage }).single("image_name");
+module.exports = multer({ storage: storage }).single("image");

@@ -24,9 +24,9 @@ exports.signup = (req, res, next) => {
           } else {
             // has hashed pw => add to database
             db.query(
-              `INSERT INTO utilisateur (email, password) VALUES ('${
-                req.body.email
-              }',${db.escape(hash)})`,
+              `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
+                req.body.pseudo
+              }','${req.body.email}',${db.escape(hash)})`,
               (err) => {
                 if (err) {
                   throw err;
@@ -50,9 +50,6 @@ exports.login = (req, res, next) => {
       // user does not exists
       if (err) {
         throw err;
-        return res.status(400).send({
-          msg: err,
-        });
       }
       if (!result.length) {
         return res.status(401).send({
@@ -67,9 +64,6 @@ exports.login = (req, res, next) => {
           // wrong password
           if (bErr) {
             throw bErr;
-            return res.status(401).send({
-              msg: "Username or password is incorrect!",
-            });
           }
           if (bResult) {
             const token = jwt.sign(

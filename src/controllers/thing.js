@@ -10,6 +10,7 @@ exports.createThing = (req, res, next) => {
   }`;
   const likes = (req.body.likes = 0);
   const dislikes = (req.body.dislikes = 0);
+
   const sql = `INSERT post SET comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
