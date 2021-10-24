@@ -86,7 +86,11 @@ export default {
       this.step = "login";
     },
     createAccountApi: function() {
-      console.log(this.pseudo, this.email, this.password);
+      this.$store.dispatch("createAccountApi", {
+        pseudo: this.pseudo,
+        email: this.email,
+        password: this.password,
+      });
     },
   },
 };
