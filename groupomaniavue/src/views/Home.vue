@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <h1>Bienvenue</h1>
     <div
       class="card"
       style="width: 18rem;"

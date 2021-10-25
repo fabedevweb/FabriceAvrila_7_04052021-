@@ -47,6 +47,7 @@
           />
         </div>
         <button
+          @click="loginAccountApi()"
           type="submit"
           class="btn btn-primary button--disable"
           v-if="step == 'login'"
@@ -67,6 +68,7 @@
 </template>
 
 <script>
+const axios = require("axios");
 export default {
   name: "login",
   data: function() {
@@ -85,12 +87,35 @@ export default {
     loginAccount: function() {
       this.step = "login";
     },
-    createAccountApi: function() {
-      this.$store.dispatch("createAccountApi", {
+    createAccountApi() {
+      const data = {
         pseudo: this.pseudo,
         email: this.email,
         password: this.password,
-      });
+      };
+      axios
+        .post("http://localhost:3000/api/auth/signup", data)
+        .then(() => {
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    loginAccountApi() {
+      const data2 = {
+        email: this.email,
+        password: this.password,
+      };
+      axios
+        .post("http://localhost:3000/api/auth/login", data2)
+        .then((res) => {
+          this.$router.push("/");
+          localStorage.setItem("token", res.data.token);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
