@@ -35,7 +35,11 @@ const store = createStore({
       pseudo: "",
       password: "",
       comment: "",
-      imageUrl: "",
+      image: "",
+    },
+    posts: {
+      comment: "",
+      image: "",
     },
   },
   mutations: {
@@ -84,6 +88,22 @@ const store = createStore({
         commit;
         instance
           .post("auth/signup", userInfos)
+          .then(function(response) {
+            commit("setStatus", "created");
+            resolve(response);
+          })
+          .catch(function(error) {
+            commit("setStatus", "error_create");
+            reject(error);
+          });
+      });
+    },
+    createPosts: ({ commit }, posts) => {
+      commit("setStatus", "loading");
+      return new Promise((resolve, reject) => {
+        commit;
+        instance
+          .post("/", posts)
           .then(function(response) {
             commit("setStatus", "created");
             resolve(response);

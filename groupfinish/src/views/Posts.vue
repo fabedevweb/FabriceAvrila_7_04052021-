@@ -4,6 +4,7 @@
     <div class="card mt-5" v-if="formPost()">
       <div class="form-row">
         <input
+          v-model="comment"
           class="form-row__input form-row__input--comment"
           type="text"
           placeholder="comment"
@@ -11,9 +12,14 @@
       </div>
       <div class="mb-3">
         <label for="formFile" class="form-label"></label>
-        <input class="form-control" type="file" id="formFile" />
+        <input
+          @change="onFileChange"
+          class="form-control"
+          type="file"
+          id="formFile"
+        />
       </div>
-      <button @click="createAccount()" class="button">
+      <button @click="createPosts()" class="button">
         <span>Poster mon commentaire</span>
       </button>
     </div>
@@ -35,6 +41,8 @@ export default {
   data() {
     return {
       posts: [],
+      comment: "",
+      image: "",
     };
   },
   mounted() {
@@ -48,6 +56,17 @@ export default {
       if (localStorage.getItem("user")) {
         return true;
       }
+    },
+    onFileChange: function(event) {
+      this.selectFile = event.target.files[0];
+    },
+    createPosts: function() {
+      const fd = new FormData();
+      fd.append("image", this.selectFile, this.selectFile.name);
+      fd.append("comment", this.comment);
+      axios.post("http://localhost:3000/api/", fd).then((res) => {
+        console.log(res);
+      });
     },
   },
 };
