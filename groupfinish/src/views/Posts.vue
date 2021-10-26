@@ -1,9 +1,7 @@
 <template>
-  <div class="card">
-    <h1 class="card__title">Bienvenue</h1>
-    <!--
-    <p class="card__subtitle">Pseudo de l'utilisateur</p>
-        <div
+  <div class="hello">
+    <h1>Bienvenue</h1>
+    <div
       class="card"
       style="width: 18rem;"
       :key="index"
@@ -17,31 +15,29 @@
       </div>
     </div>
   </div>
-  
--->
-  </div>
 </template>
 
 <script>
-/*
-import { mapState } from "vuex";
+import axios from "axios";
 export default {
-  name: "Posts",
-  mounted: function() {
-    console.log(this.$store.state.user);
-    if (this.$store.state.user.userId == -1) {
-      this.$router.push("/");
-      return;
-    }
-    this.$store.dispatch("getUserInfos");
+  name: "Home",
+  data() {
+    return {
+      posts: [],
+    };
   },
-  computed: {
-    ...mapState({
-      user: "userInfos",
-    }),
+  mounted() {
+    axios.get("http://localhost:3000/api/").then((res) => {
+      this.posts = res.data;
+      console.log(this.posts);
+    });
   },
 };
-*/
 </script>
 
-<style scoped></style>>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+img {
+  width: 18rem;
+}
+</style>
