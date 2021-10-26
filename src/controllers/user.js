@@ -76,9 +76,6 @@ exports.login = (req, res, next) => {
                 expiresIn: "7d",
               }
             );
-            db.query(
-              `UPDATE utilisateur SET email = now() WHERE id = '${result[0].id}'`
-            );
             return res.status(200).send({
               msg: "Logged in!",
               token,

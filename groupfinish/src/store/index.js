@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 const axios = require("axios");
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "http://localhost:3000/api/",
 });
 
 let user = localStorage.getItem("user");
@@ -30,13 +30,18 @@ const store = createStore({
     status: "",
     user: user,
     userInfos: {
-      nom: "",
-      prenom: "",
+      id: "",
       email: "",
-      photo: "",
+      pseudo: "",
+      password: "",
+      comment: "",
+      imageUrl: "",
     },
   },
   mutations: {
+    //METTRE LES NOMS DES MUTATIONS EN MAJUSCULES
+    //Les mutations Vuex sont synchrones, il n'est pas possible de récupérer des données d'une API dans une mutation
+    //Les mutations nous permettent de mettre à jour/modifier le state
     setStatus: function(state, status) {
       state.status = status;
     },
@@ -61,7 +66,7 @@ const store = createStore({
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
-          .post("/api/auth/login", userInfos)
+          .post("auth/login", userInfos)
           .then(function(response) {
             commit("setStatus", "");
             commit("logUser", response.data);
@@ -78,7 +83,7 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         commit;
         instance
-          .post("/api/auth/signup", userInfos)
+          .post("auth/signup", userInfos)
           .then(function(response) {
             commit("setStatus", "created");
             resolve(response);
@@ -89,11 +94,21 @@ const store = createStore({
           });
       });
     },
+
     getUserInfos: ({ commit }) => {
       instance
-        .post("/infos")
+        .get("/1")
         .then(function(response) {
-          commit("userInfos", response.data.infos);
+          commit("userInfos", response.data);
+        })
+        .catch(function() {});
+    },
+
+    getAllPosts: ({ commit }) => {
+      instance
+        .get("/")
+        .then(function(response) {
+          commit("userInfos", response.data);
         })
         .catch(function() {});
     },

@@ -2,8 +2,7 @@
   <div class="card">
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
-    <p>{{user.prenom}} {{user.nom}} {{user.email}}</p>
-    <img :src="user.photo"/>
+    <p>{{ user.comment }} {{ user.imageUrl }}</p>
     <div class="form-row">
       <button @click="logout()" class="button">
         Déconnexion
@@ -13,31 +12,29 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'Profile',
-  mounted: function () {
+  name: "Profile",
+  mounted: function() {
     console.log(this.$store.state.user);
     if (this.$store.state.user.userId == -1) {
-      this.$router.push('/');
-      return ;
+      this.$router.push("/");
+      return;
     }
-    this.$store.dispatch('getUserInfos');
+    this.$store.dispatch("getUserInfos");
   },
   computed: {
     ...mapState({
-      user: 'userInfos',
-    })
+      user: "userInfos",
+    }),
   },
   methods: {
-    logout: function () {
-      this.$store.commit('logout');
-      this.$router.push('/');
-    }
-  }
-}
+    logout: function() {
+      this.$store.commit("logout");
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>>
+<style scoped></style>>

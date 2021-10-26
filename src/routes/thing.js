@@ -5,7 +5,7 @@ const router = express.Router();
 //J'importe mon model de sauces
 const thingCtrl = require("../controllers/thing");
 //Importer le middleware qui protègera mes routes
-const auth = require("../middleware/auth");
+//const auth = require("../middleware/auth");
 //Importer le middleware multer
 const multer = require("../middleware/multer-config");
 
