@@ -54,7 +54,7 @@ export default {
 a {
   text-decoration: none;
 }
-img {
+.logo {
   max-width: 2rem;
   border-radius: 8px;
 }
