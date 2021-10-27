@@ -4,7 +4,8 @@ const fs = require("fs");
 
 exports.createThing = (req, res, next) => {
   const file = req.file;
-  //const id = req.body.id;
+  const userId = req.body.userId;
+  const pseudo = req.body.pseudo;
   const comment = req.body.comment;
   const imageUrl = `${req.protocol}://${req.get("host")}/images/${
     req.file.filename
@@ -12,7 +13,7 @@ exports.createThing = (req, res, next) => {
   const likes = (req.body.likes = 0);
   const dislikes = (req.body.dislikes = 0);
 
-  const sql = `INSERT post SET comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
+  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
   } else {
@@ -31,7 +32,7 @@ exports.getAllThing = (req, res, next) => {
   });
 };
 exports.getOneThing = (req, res, next) => {
-  db.query("SELECT * FROM post WHERE id=?", req.params.id, function(
+  db.query("SELECT * FROM post WHERE userId=?", req.params.id, function(
     error,
     results,
     fields

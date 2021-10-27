@@ -19,7 +19,8 @@
           <router-link to="/login">
             <form class="d-flex">
               <button class="btn btn-outline-success" type="submit">
-                Login
+                <span v-if="formPost()">Mon profil</span>
+                <span v-else>Login</span>
               </button>
             </form>
           </router-link>
@@ -34,6 +35,13 @@
 export default {
   name: "App",
   components: {},
+  methods: {
+    formPost: function() {
+      if (localStorage.getItem("user")) {
+        return true;
+      }
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,13 @@
 <template>
   <div class="hello">
-    <h1>Bienvenue</h1>
-    <div class="card mt-5" v-if="formPost()">
+    <h1 class="header__posts">
+      Bienvenue
+      <span :key="index" v-for="(posts, index) in posts">{{
+        posts.pseudo
+      }}</span>
+    </h1>
+    <div class="card mt-5 mx-auto" v-if="formPost()">
+      <h2 class="card-title mx-auto mb-5">Exprimez-vous !</h2>
       <div class="form-row">
         <input
           v-model="comment"
@@ -10,7 +16,7 @@
           placeholder="comment"
         />
       </div>
-      <div class="mb-3">
+      <div class="mb-3 ">
         <label for="formFile" class="form-label"></label>
         <input
           @change="onFileChange"
@@ -23,7 +29,8 @@
         <span>Poster mon commentaire</span>
       </button>
     </div>
-    <div class="card mt-5" :key="index" v-for="(posts, index) in posts">
+    <div class="card mt-5 mx-auto" :key="index" v-for="(posts, index) in posts">
+      <h3>{{ posts.pseudo }}</h3>
       <img :src="posts.imageUrl" class="container__img" alt="" />
       <div class="card-body">
         <p class="card-text">
@@ -41,8 +48,12 @@ export default {
   data() {
     return {
       posts: [],
+      userId: "",
       comment: "",
       image: "",
+      post: "",
+      email: "",
+      pseudo: "",
     };
   },
   mounted() {
@@ -62,11 +73,18 @@ export default {
     },
     createPosts: function() {
       const fd = new FormData();
+      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+      const userIdValue = Object.values(userIdLocaStorage);
+      const userId = userIdValue[2].id;
+      const pseudo = userIdValue[2].pseudo;
       fd.append("image", this.selectFile, this.selectFile.name);
       fd.append("comment", this.comment);
+      fd.append("userId", userId);
+      fd.append("pseudo", pseudo);
       axios.post("http://localhost:3000/api/", fd).then((res) => {
-        console.log(res);
+        console.log(res, this.pseudo);
       });
+      //location.reload();
     },
   },
 };
@@ -74,7 +92,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.card {
+  max-width: 35%;
+}
 .form-row__input--comment {
   width: 100%;
+}
+.header__posts {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
