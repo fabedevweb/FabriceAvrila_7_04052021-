@@ -84,7 +84,7 @@ export default {
       axios.post("http://localhost:3000/api/", fd).then((res) => {
         console.log(res, this.pseudo);
       });
-      //location.reload();
+      location.reload();
     },
   },
 };

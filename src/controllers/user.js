@@ -90,3 +90,10 @@ exports.login = (req, res, next) => {
     }
   );
 };
+exports.delete = (req, res, next) => {
+  var sql = "DELETE FROM `utilisateur` WHERE `id`=?";
+  db.query(sql, [req.params.id], function(error, results, fields) {
+    if (error) throw error;
+    return res.send({ message: "L'utilisateur a bien été supprimé" });
+  });
+};

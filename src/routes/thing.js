@@ -12,7 +12,7 @@ const multer = require("../middleware/multer-config");
 router.post("/", multer, thingCtrl.createThing);
 router.get("/:id", thingCtrl.getOneThing);
 router.get("/", thingCtrl.getAllThing);
-router.put("/:id", multer, thingCtrl.modifyThing);
+router.post("/:id", multer, thingCtrl.modifyThing);
 router.delete("/:id", thingCtrl.deleteThing);
 router.post("/:id/like", thingCtrl.likeThing);
 module.exports = router;
