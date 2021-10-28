@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">🤩 Bienvenue {{ pseudo }}</h1>
-    <div class="card mt-5 mx-auto border-0 " v-if="formPost()">
+    <h1 class="header__posts">Bienvenue</h1>
+    <div class="card mt-5 mx-auto border-0" v-if="formPost()">
       <div class="form-row">
         <input
           v-model="comment"
@@ -24,7 +24,7 @@
       </button>
     </div>
     <div class="card mt-5 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h2>Posté par 😎 {{ post.pseudo }} le {{ date }}</h2>
+      <h3>Posté par 😎 {{ post.pseudo }} le {{ date }}</h3>
       <img :src="post.imageUrl" class="container__img" alt="" />
       <div class="card-body">
         <p class="card-text">
@@ -76,11 +76,13 @@ export default {
       console.log(this.posts);
     });
     //Récupérer le pseudo pour l'afficher
+    /*
     const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
     const userIdValue = Object.values(userIdLocaStorage);
     const userId = userIdValue[2].pseudo;
     console.log(userId);
     this.pseudo = userId;
+    
     //Récupérer la date et l'heure pour le poste
     var today = new Date();
     var date =
@@ -93,6 +95,7 @@ export default {
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + " à " + time;
     this.date = dateTime;
+    */
   },
   methods: {
     formPost: function() {
@@ -116,7 +119,7 @@ export default {
       axios.post("http://localhost:3000/api/", fd).then((res) => {
         console.log(res, this.comment);
       });
-      //location.reload();
+      location.reload();
     },
     requestPosts: function(post) {
       /*
@@ -141,9 +144,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h2 {
-  font-size: 1rem;
-}
 .hello {
   background-color: #ccc;
 }
@@ -157,5 +157,8 @@ h2 {
 .header__posts {
   text-align: center;
   padding-top: 97px;
+}
+.card-text {
+  background-color: aqua;
 }
 </style>
