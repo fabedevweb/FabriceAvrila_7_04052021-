@@ -41,18 +41,6 @@ exports.getOneThing = (req, res, next) => {
     }
   );
 };
-/*
-exports.getOneThingUser = (req, res, next) => {
-  db.query("SELECT * FROM post WHERE userId=?", req.params.userId, function(
-    error,
-    results,
-    fields
-  ) {
-    if (error) throw error;
-    res.end(JSON.stringify(results));
-  });
-};
-*/
 exports.modifyThing = (req, res, next) => {
   const file = req.file;
   const comment = req.body.comment;
@@ -62,8 +50,8 @@ exports.modifyThing = (req, res, next) => {
   const likes = req.body.likes;
   const dislikes = req.body.dislikes;
   const id = req.params.id;
-
-  var sql = `UPDATE post SET comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'  WHERE id =${id} `;
+  //var sql = `UPDATE post SET comment ='${comment}', imageUrl ='${imageUrl}', WHERE id = '${id}'`;
+  var sql = `UPDATE post SET WHERE id = ${id}`;
   db.query(sql, function(error, results, fields) {
     if (error) throw error;
     return res.send({ message: "Le fichier a été modifié" });

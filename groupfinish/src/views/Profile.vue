@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card mx-auto mt-5">
+    <div class="card mx-auto mt-5" v-if="formPost()">
       <h1 class="card__title" @click="userLocalStorage()">Mon profil</h1>
       <p class="card__subtitle">{{ userId }}</p>
       <p>{{ user.comment }} {{ user.imageUrl }}</p>
@@ -10,7 +10,7 @@
         </button>
       </div>
       <div>
-        <button @click="logout()" class="btn btn-danger btn-lg mt-2">
+        <button @click="deleteAccount(post)" class="btn btn-danger btn-lg mt-2">
           Supprimer mon compte 😨
         </button>
       </div>
@@ -91,6 +91,7 @@ export default {
       image: "",
       email: "",
       mode: "",
+      likes: "",
     };
   },
   mounted: function() {
@@ -105,7 +106,7 @@ export default {
     const userId = userIdValue[2].id;
     axios.get(`http://localhost:3000/api/${userId}`).then((res) => {
       this.posts = res.data;
-      console.log(this.posts);
+      console.log(userId);
     });
   },
   computed: {
@@ -114,6 +115,11 @@ export default {
     }),
   },
   methods: {
+    formPost: function() {
+      if (localStorage.getItem("user")) {
+        return true;
+      }
+    },
     logout: function() {
       this.$store.commit("logout");
       this.$router.push("/");
@@ -124,22 +130,25 @@ export default {
     switchToLogin: function() {
       this.mode = "login";
     },
+    onFileChange: function(event) {
+      this.selectFile = event.target.files[0];
+    },
     modifyPosts: function(post) {
       const fd = new FormData();
       const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
       const userIdValue = Object.values(userIdLocaStorage);
       const userId = userIdValue[2].id;
       const pseudo = userIdValue[2].pseudo;
-      fd.append("image", this.selectFile);
+      fd.append("image", this.selectFile, this.selectFile.name);
       fd.append("comment", this.comment);
       fd.append("userId", userId);
       fd.append("pseudo", pseudo);
       axios.put(`http://localhost:3000/api/${post.id}`, fd).then((res) => {
         console.log(res, this.pseudo);
       });
-      location.reload();
+      //location.reload();
 
-      console.log("update");
+      console.log(post);
     },
     deletePosts: function(post) {
       axios.delete(`http://localhost:3000/api/${post.id}`).then((res) => {
@@ -150,6 +159,17 @@ export default {
     },
     test: function(post) {
       console.log(post);
+    },
+    deleteAccount: function() {
+      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+      const userIdValue = Object.values(userIdLocaStorage);
+      const userId = userIdValue[2].id;
+      axios.delete(`http://localhost:3000/api/auth/${userId}`).then((res) => {
+        this.posts = res.data;
+        console.log(userId);
+      });
+      localStorage.removeItem("user");
+      location.reload();
     },
   },
 };
