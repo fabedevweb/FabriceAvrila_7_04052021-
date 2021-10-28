@@ -1,23 +1,24 @@
 <template>
-  <div>
-    <div class="card mx-auto mt-5" v-if="formPost()">
+  <div class="profile">
+    <div class="card mx-auto mt-5 border-0 card-profile" v-if="formPost()">
       <h1 class="card__title" @click="userLocalStorage()">Mon profil</h1>
       <p class="card__subtitle">{{ userId }}</p>
       <p>{{ user.comment }} {{ user.imageUrl }}</p>
-      <div class="form-row">
+      <div class="form-row text-center">
         <button @click="logout()" class="btn btn-primary btn-lg">
           Déconnexion
         </button>
       </div>
-      <div>
-        <button @click="deleteAccount(post)" class="btn btn-danger btn-lg mt-2">
-          Supprimer mon compte 😨
+      <div class="text-center">
+        <button
+          @click="deleteAccount(post)"
+          class="btn btn-danger btn-lg mt-2 text-center"
+        >
+          😰 Supprimer mon compte 😨
         </button>
       </div>
     </div>
     <div>
-      <h2 class="header">Mes posts</h2>
-
       <div
         class="card mt-5 mx-auto"
         :key="index"
@@ -176,15 +177,21 @@ export default {
 </script>
 
 <style scoped>
+.card-profile {
+  padding-top: 100px;
+}
+.profile {
+  background-color: #ccc;
+}
 .card__action {
   text-decoration: none;
 }
 .card {
-  max-width: 35%;
+  max-width: 60%;
 }
 
 .header {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 </style>
