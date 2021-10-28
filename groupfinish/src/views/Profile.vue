@@ -62,7 +62,12 @@
         >
           Supprimer mon post
         </button>
-        <img :src="post.imageUrl" class="container__img" alt="" />
+        <img
+          :src="post.imageUrl"
+          class="container__img"
+          alt=""
+          @click="test(post)"
+        />
         <div class="card-body">
           <p class="card-text">
             {{ post.comment }}
@@ -142,6 +147,9 @@ export default {
       });
       location.reload();
       console.log("delete" + post.id);
+    },
+    test: function(post) {
+      console.log(post);
     },
   },
 };

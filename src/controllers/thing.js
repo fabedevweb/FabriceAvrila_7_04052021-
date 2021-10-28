@@ -32,7 +32,18 @@ exports.getAllThing = (req, res, next) => {
   });
 };
 exports.getOneThing = (req, res, next) => {
-  db.query("SELECT * FROM post WHERE userId=?", req.params.id, function(
+  db.query(
+    `SELECT * FROM post WHERE id=${req.params.id} OR userId=${req.params.id}`,
+    req.params.id,
+    function(error, results, fields) {
+      if (error) throw error;
+      res.end(JSON.stringify(results));
+    }
+  );
+};
+/*
+exports.getOneThingUser = (req, res, next) => {
+  db.query("SELECT * FROM post WHERE userId=?", req.params.userId, function(
     error,
     results,
     fields
@@ -41,7 +52,7 @@ exports.getOneThing = (req, res, next) => {
     res.end(JSON.stringify(results));
   });
 };
-
+*/
 exports.modifyThing = (req, res, next) => {
   const file = req.file;
   const comment = req.body.comment;
