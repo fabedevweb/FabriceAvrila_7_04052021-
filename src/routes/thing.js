@@ -10,7 +10,7 @@ const thingCtrl = require("../controllers/thing");
 const multer = require("../middleware/multer-config");
 
 router.post("/", multer, thingCtrl.createThing);
-//router.get("/:userId", thingCtrl.getOneThingUser);
+router.post("/", multer, thingCtrl.createReply);
 router.get("/:id", thingCtrl.getOneThing);
 router.get("/", thingCtrl.getAllThing);
 router.put("/:id", multer, thingCtrl.modifyThing);

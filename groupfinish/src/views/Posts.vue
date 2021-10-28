@@ -2,9 +2,7 @@
   <div class="hello">
     <h1 class="header__posts">
       Bienvenue
-      <span :key="index" v-for="(posts, index) in posts">{{
-        posts.pseudo
-      }}</span>
+      <span :key="index" v-for="(posts, index) in posts">Ajouter Nom </span>
     </h1>
     <div class="card mt-5 mx-auto" v-if="formPost()">
       <h2 class="card-title mx-auto mb-5">Exprimez-vous !</h2>
@@ -29,13 +27,29 @@
         <span>Poster mon commentaire</span>
       </button>
     </div>
-    <div class="card mt-5 mx-auto" :key="index" v-for="(posts, index) in posts">
-      <h3>{{ posts.pseudo }}</h3>
-      <img :src="posts.imageUrl" class="container__img" alt="" />
+    <div class="card mt-5 mx-auto" :key="index" v-for="(post, index) in posts">
+      <h3>{{ post.pseudo }}</h3>
+      <img :src="post.imageUrl" class="container__img" alt="" />
       <div class="card-body">
         <p class="card-text">
-          {{ posts.comment }}
+          {{ post.comment }}
         </p>
+      </div>
+      <div class=" mt-5 mx-auto" v-if="formPost()">
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label"
+            >Nom</label
+          >
+          <textarea
+            v-model="postRequest"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+          ></textarea>
+        </div>
+        <button @click="reply(post)" class="button">
+          <span>commenter</span>
+        </button>
       </div>
     </div>
   </div>
@@ -54,6 +68,7 @@ export default {
       post: "",
       email: "",
       pseudo: "",
+      postRequest: "",
     };
   },
   mounted() {
@@ -85,6 +100,21 @@ export default {
         console.log(res, this.pseudo);
       });
       location.reload();
+    },
+    reply: function(post) {
+      const fd = new FormData();
+      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+      const userIdValue = Object.values(userIdLocaStorage);
+      const userId = userIdValue[2].id;
+      const pseudo = userIdValue[2].pseudo;
+      fd.append("comment", this.comment);
+      fd.append("userId", userId);
+      fd.append("pseudo", pseudo);
+      axios.post("http://localhost:3000/api/", fd).then((res) => {
+        console.log(res, this.reply);
+      });
+      location.reload();
+      console.log(post.id);
     },
   },
 };
