@@ -36,6 +36,7 @@ exports.createReply = (req, res, next) => {
     if (err) {
       throw err;
     }
+    return res.send({ message: "Reply is successfully" });
   });
 };
 exports.getAllThing = (req, res, next) => {

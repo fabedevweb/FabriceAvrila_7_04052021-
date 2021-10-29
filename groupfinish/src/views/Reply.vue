@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">Bienvenue {{}}</h1>
+    <h1 class="header__posts">Réponds au post {{}}</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
       <h3>Posté par 😎 {{ post.pseudo }} le {{ date }}</h3>
       <div class="card-body">
@@ -22,7 +22,7 @@
       >
         commenter
       </button>
-      <div v-if="mode == 'createReply'">
+      <div>
         <input
           v-model="reply"
           type="text"
@@ -42,24 +42,6 @@
           </button>
         </div>
       </div>
-      <!--
-      <div class=" mt-5 mx-auto" v-if="formPost()">
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label"
-            >Nom</label
-          >
-          <textarea
-            v-model="postRequest"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-          ></textarea>
-        </div>
-        <button @click="requestPosts(post)" class="button">
-          <span>commenter</span>
-        </button>
-      </div>
-      -->
     </div>
   </div>
 </template>
@@ -89,27 +71,6 @@ export default {
       this.posts = res.data;
       console.log(this.posts);
     });
-    //Récupérer le pseudo pour l'afficher
-    /*
-    const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-    const userIdValue = Object.values(userIdLocaStorage);
-    const userId = userIdValue[2].pseudo;
-    console.log(userId);
-    this.pseudo = userId;
-
-    //Récupérer la date et l'heure pour le poste
-    var today = new Date();
-    var date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date + " à " + time;
-    this.date = dateTime;
-    */
   },
   methods: {
     formPost: function() {
@@ -123,16 +84,19 @@ export default {
     createPosts: function() {
       const fd = new FormData();
       const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-      const userIdValue = Object.values(userIdLocaStorage);
-      const userId = userIdValue[2].id;
-      const pseudo = userIdValue[2].pseudo;
-      fd.append("comment", this.comment);
+      const userId = userIdLocaStorage.user.id;
+      const pseudo = userIdLocaStorage.user.pseudo;
+      fd.append("comment", this.reply);
       fd.append("userId", userId);
       fd.append("pseudo", pseudo);
+      /*
       axios.post("http://localhost:3000/api/reply", fd).then((res) => {
         console.log(res, this.comment);
       });
-      //location.reload();
+
+      location.reload();
+*/
+      console.log(this.reply);
     },
     switchToReply: function() {
       this.mode = "createReply";
