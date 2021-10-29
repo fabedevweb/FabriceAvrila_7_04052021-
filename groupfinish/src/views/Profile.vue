@@ -24,6 +24,7 @@
         :key="index"
         v-for="(post, index) in posts"
       >
+        <!--
         <div class="card mt-5 mx-auto" v-if="mode == 'login'">
           <div class="form-row">
             <input
@@ -56,6 +57,7 @@
             >Modifier mon poste</span
           >
         </p>
+        -->
         <button
           type="button"
           class="btn btn-danger mb-5"

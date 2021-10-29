@@ -44,7 +44,7 @@
       >
         commenter
       </button>
-      <div>
+      <div v-if="mode == 'createReply'">
         <input
           v-model="post.reply"
           type="text"
@@ -116,7 +116,7 @@ export default {
     const userId = userIdValue[2].pseudo;
     console.log(userId);
     this.pseudo = userId;
-
+    
     //Récupérer la date et l'heure pour le poste
     var today = new Date();
     var date =
@@ -155,12 +155,9 @@ export default {
       });
       location.reload();
     },
-    switchToReply: function(post) {
-      //this.mode = "createReply";
-      //this.$router.push("/reply");
-      this.post = post;
-      console.log(this.post);
-      //localStorage.setItem("reply", JSON.stringify());
+    switchToReply: function() {
+      this.mode = "createReply";
+      this.$router.push("/reply");
     },
     replyPost: function(post) {
       //const fd = new FormData();

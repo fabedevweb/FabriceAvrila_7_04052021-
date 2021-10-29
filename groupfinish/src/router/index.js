@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Login from "@/views/Login.vue";
 import Profile from "@/views/Profile.vue";
 import Posts from "@/views/Posts.vue";
+import Reply from "@/views/Reply.vue";
 
 const routes = [
   {
@@ -19,6 +20,12 @@ const routes = [
     name: "posts",
     path: "/",
     component: Posts,
+    props: true,
+  },
+  {
+    name: "reply",
+    path: "/reply",
+    component: Reply,
     props: true,
   },
 ];

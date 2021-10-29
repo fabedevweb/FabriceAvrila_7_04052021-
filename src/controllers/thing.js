@@ -27,22 +27,14 @@ exports.createThing = (req, res, next) => {
 };
 exports.createReply = (req, res, next) => {
   const userId = req.body.userId;
-  const pseudo = req.body.pseudo;
-  const comment = req.body.comment;
-  const likes = (req.body.likes = 0);
-  const dislikes = (req.body.dislikes = 0);
+  const reply = req.body.reply;
 
-  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}',likes='${likes}', dislikes='${dislikes}'`;
-  if (!file) {
-    return res.status(400).send({ message: "Please upload a file." });
-  } else {
-    db.query(sql, (err) => {
-      if (err) {
-        throw err;
-      }
-      return res.send({ message: "File is successfully.", file });
-    });
-  }
+  const sql = `INSERT reply SET userId ='${userId}',reply ='${reply}'`;
+  db.query(sql, (err) => {
+    if (err) {
+      throw err;
+    }
+  });
 };
 exports.getAllThing = (req, res, next) => {
   db.query("SELECT * FROM post", function(error, results, fields) {
