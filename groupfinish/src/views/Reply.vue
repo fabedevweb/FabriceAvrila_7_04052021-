@@ -105,7 +105,8 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://localhost:3000/api/").then((res) => {
+    const idLicalStorage = JSON.parse(localStorage.getItem("reply"));
+    axios.get(`http://localhost:3000/api/${idLicalStorage}`).then((res) => {
       this.posts = res.data;
       console.log(this.posts);
     });

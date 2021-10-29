@@ -44,26 +44,7 @@
       >
         commenter
       </button>
-      <div>
-        <input
-          v-model="post.reply"
-          type="text"
-          class="form-control rounded-0 mt-2 form-row__input--comment"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-default"
-          placeholder="commenter"
-        />
-        <p>{{ post.reply }}</p>
-        <div class="d-grid gap-2">
-          <button
-            class="btn btn-primary rounded-0"
-            type="button"
-            @click="replyPost(post)"
-          >
-            Poster mon commentaire
-          </button>
-        </div>
-      </div>
+
       <!--
       <div class=" mt-5 mx-auto" v-if="formPost()">
         <div class="mb-3">
@@ -156,11 +137,9 @@ export default {
       location.reload();
     },
     switchToReply: function(post) {
-      //this.mode = "createReply";
-      //this.$router.push("/reply");
-      this.post = post;
-      console.log(this.post);
-      //localStorage.setItem("reply", JSON.stringify());
+      this.$router.push("/reply");
+      this.post = post.id;
+      localStorage.setItem("reply", JSON.stringify(this.post));
     },
     replyPost: function(post) {
       //const fd = new FormData();
