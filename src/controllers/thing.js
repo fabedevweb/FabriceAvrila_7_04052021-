@@ -27,9 +27,11 @@ exports.createThing = (req, res, next) => {
 };
 exports.createReply = (req, res, next) => {
   const userId = req.body.userId;
-  const reply = req.body.reply;
+  const comment = req.body.comment;
+  const pseudo = req.body.pseudo;
+  const idPost = req.body.idPost;
 
-  const sql = `INSERT reply SET userId ='${userId}',reply ='${reply}'`;
+  const sql = `INSERT reply SET userId ='${userId}',comment ='${comment}', pseudo ='${pseudo}', idPost ='${idPost}'`;
   db.query(sql, (err) => {
     if (err) {
       throw err;
