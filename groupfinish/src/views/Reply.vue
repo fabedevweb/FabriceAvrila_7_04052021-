@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">Réponds au post {{}}</h1>
+    <h1 class="header__posts">Réponds au post</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
       <h3>Posté par 😎 {{ post.pseudo }} le {{ date }}</h3>
       <div class="card-body">
@@ -15,6 +15,13 @@
           {{ post.comment }}
         </p>
       </div>
+      <div
+        class="card mt-3 mx-auto"
+        :key="index"
+        v-for="(replyPost, index) in replyPosts"
+      >
+        <p>{{ replyPost.comment }}</p>
+      </div>
       <button
         class="btn btn-primary rounded-0"
         type="button"
@@ -22,25 +29,24 @@
       >
         commenter
       </button>
-      <div>
-        <input
-          v-model="reply"
-          type="text"
-          class="form-control rounded-0 mt-2 form-row__input--comment"
-          aria-label="Sizing example input"
-          aria-describedby="inputGroup-sizing-default"
-          placeholder="commenter"
-        />
-        <p>{{ post.reply }}</p>
-        <div class="d-grid gap-2">
-          <button
-            class="btn btn-primary rounded-0"
-            type="button"
-            @click="createPosts(post)"
-          >
-            Poster mon commentaire
-          </button>
-        </div>
+    </div>
+    <div>
+      <input
+        v-model="comment"
+        type="text"
+        class="form-control rounded-0 mt-2 form-row__input--comment"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default"
+        placeholder="commenter"
+      />
+      <div class="d-grid gap-2">
+        <button
+          class="btn btn-primary rounded-0"
+          type="button"
+          @click="createPosts(post)"
+        >
+          Poster mon commentaire
+        </button>
       </div>
     </div>
   </div>
@@ -53,6 +59,8 @@ export default {
   data() {
     return {
       posts: [],
+      replyPost: [],
+      replyPosts: [],
       userId: "",
       comment: "",
       image: "",
@@ -62,14 +70,34 @@ export default {
       postRequest: "",
       date: "",
       mode: "",
-      reply: "",
+      replyShowPage: "",
+      reply: {
+        id: "",
+        imageUrl: "",
+        userId: "",
+        pseudo: "",
+        reply: "",
+      },
     };
   },
   mounted() {
     const idLicalStorage = JSON.parse(localStorage.getItem("reply"));
     axios.get(`http://localhost:3000/api/${idLicalStorage}`).then((res) => {
       this.posts = res.data;
-      console.log(this.posts);
+      localStorage.setItem("replyRoute", JSON.stringify(this.posts));
+    });
+    //Réccupération des infos pour
+    const idLicalStorage2 = JSON.parse(localStorage.getItem("replyRoute"));
+    this.reply.id = idLicalStorage2[0].id;
+    this.reply.imageUrl = idLicalStorage2[0].imageUrl;
+    this.reply.userId = idLicalStorage2[0].userId;
+    this.reply.pseudo = idLicalStorage2[0].pseudo;
+    this.reply.comment = idLicalStorage2[0].comment;
+
+    //Réccupération de tous les reply
+    axios.get(`http://localhost:3000/api/reply`).then((res) => {
+      this.replyPosts = res.data;
+      console.log(this.replyPosts);
     });
   },
   methods: {
@@ -82,21 +110,17 @@ export default {
       this.selectFile = event.target.files[0];
     },
     createPosts: function() {
-      const fd = new FormData();
-      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-      const userId = userIdLocaStorage.user.id;
-      const pseudo = userIdLocaStorage.user.pseudo;
-      fd.append("comment", this.reply);
-      fd.append("userId", userId);
-      fd.append("pseudo", pseudo);
-      /*
-      axios.post("http://localhost:3000/api/reply", fd).then((res) => {
-        console.log(res, this.comment);
-      });
-
+      axios
+        .post("http://localhost:3000/api/reply", {
+          idPost: this.reply.id,
+          comment: this.comment,
+          userId: this.reply.userId,
+          pseudo: this.reply.pseudo,
+        })
+        .then((res) => {
+          console.log(res, "Commentaire envoyé");
+        });
       location.reload();
-*/
-      console.log(this.reply);
     },
     switchToReply: function() {
       this.mode = "createReply";

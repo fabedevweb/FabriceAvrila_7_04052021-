@@ -39,6 +39,19 @@ exports.createReply = (req, res, next) => {
     return res.send({ message: "Reply is successfully" });
   });
 };
+exports.getReply = (req, res, next) => {
+  db.query("SELECT * FROM reply", function(error, results, fields) {
+    if (error) throw error;
+    res.end(JSON.stringify(results));
+  });
+};
+exports.deleteReply = (req, res, next) => {
+  var sql = "DELETE FROM `post` WHERE `id`=?";
+  db.query(sql, [req.params.id], function(error, results, fields) {
+    if (error) throw error;
+    return res.send({ message: "Le fichier a été supprimé" });
+  });
+};
 exports.getAllThing = (req, res, next) => {
   db.query("SELECT * FROM post", function(error, results, fields) {
     if (error) throw error;
