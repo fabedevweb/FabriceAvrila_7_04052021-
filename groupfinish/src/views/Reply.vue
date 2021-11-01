@@ -9,28 +9,24 @@
         </p>
       </div>
       <img :src="post.imageUrl" class="container__img" alt="" />
-      <div class="card-body-reply">
-        <p>Posté par 😎 {{ post.pseudo }} le {{ date }}</p>
-        <p class="card-text">
-          {{ post.comment }}
-        </p>
-      </div>
       <div
-        class="card mt-3 mx-auto"
+        class="card--replyPost mt-3"
         :key="index"
         v-for="(replyPost, index) in replyPosts"
       >
-        <p>{{ replyPost.comment }}</p>
+        <p>
+          <button
+            class="btn btn-danger rounded-0"
+            @click="deleteReply(replyPost)"
+          >
+            delete
+          </button>
+          Posté par <span> {{ replyPost.pseudo }} : </span
+          >{{ replyPost.comment }}
+        </p>
       </div>
-      <button
-        class="btn btn-primary rounded-0"
-        type="button"
-        @click="switchToReply(post)"
-      >
-        commenter
-      </button>
     </div>
-    <div>
+    <div class="reply mx-auto">
       <input
         v-model="comment"
         type="text"
@@ -43,7 +39,7 @@
         <button
           class="btn btn-primary rounded-0"
           type="button"
-          @click="createPosts(post)"
+          @click="createPosts()"
         >
           Poster mon commentaire
         </button>
@@ -80,13 +76,17 @@ export default {
       },
     };
   },
-  mounted() {
+  async mounted() {
+    //Voir tous les posts correspondant à l'id du post sélectionné sur la page Posts stocké dans le localstorage
     const idLicalStorage = JSON.parse(localStorage.getItem("reply"));
-    axios.get(`http://localhost:3000/api/${idLicalStorage}`).then((res) => {
-      this.posts = res.data;
-      localStorage.setItem("replyRoute", JSON.stringify(this.posts));
-    });
-    //Réccupération des infos pour
+    await axios
+      .get(`http://localhost:3000/api/${idLicalStorage}`)
+      .then((res) => {
+        this.posts = res.data;
+        localStorage.setItem("replyRoute", JSON.stringify(this.posts));
+      });
+
+    //Réccupération des infos du localstorage pour afficher sur la page les infos suivantes
     const idLicalStorage2 = JSON.parse(localStorage.getItem("replyRoute"));
     this.reply.id = idLicalStorage2[0].id;
     this.reply.imageUrl = idLicalStorage2[0].imageUrl;
@@ -94,11 +94,13 @@ export default {
     this.reply.pseudo = idLicalStorage2[0].pseudo;
     this.reply.comment = idLicalStorage2[0].comment;
 
-    //Réccupération de tous les reply
-    axios.get(`http://localhost:3000/api/reply`).then((res) => {
-      this.replyPosts = res.data;
-      console.log(this.replyPosts);
-    });
+    //Voir tous les reply correspondant au id du post
+    axios
+      .get(`http://localhost:3000/api/reply/${idLicalStorage}`)
+      .then((res) => {
+        this.replyPosts = res.data;
+        console.log(this.replyPosts);
+      });
   },
   methods: {
     formPost: function() {
@@ -111,7 +113,7 @@ export default {
     },
     createPosts: function() {
       axios
-        .post("http://localhost:3000/api/reply", {
+        .post(`http://localhost:3000/api/reply`, {
           idPost: this.reply.id,
           comment: this.comment,
           userId: this.reply.userId,
@@ -126,12 +128,26 @@ export default {
       this.mode = "createReply";
       this.$router.push("/reply");
     },
+
+    deleteReply: function(replyPost) {
+      axios
+        .delete(`http://localhost:3000/api/reply/${replyPost.id}`)
+        .then((res) => {
+          this.replyPosts = res.data;
+        });
+      location.reload();
+      replyPost;
+      console.log(replyPost.id);
+    },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.reply {
+  width: 60%;
+}
 .hello {
   background-color: #ccc;
 }
@@ -148,8 +164,13 @@ export default {
   padding-top: 97px;
 }
 .card-body-reply {
-  margin-top: 10px;
   padding: 1rem;
   background-color: #ccc;
+}
+.card--replyPost {
+  padding-left: 1rem;
+}
+p {
+  margin: 0px;
 }
 </style>

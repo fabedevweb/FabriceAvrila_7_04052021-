@@ -62,7 +62,7 @@ const store = createStore({
         userId: -1,
         token: "",
       };
-      localStorage.removeItem("user");
+      localStorage.clear();
     },
   },
   actions: {

@@ -13,7 +13,7 @@ exports.createThing = (req, res, next) => {
   const likes = (req.body.likes = 0);
   const dislikes = (req.body.dislikes = 0);
 
-  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
+  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}', date=NOW()`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
   } else {
@@ -40,13 +40,18 @@ exports.createReply = (req, res, next) => {
   });
 };
 exports.getReply = (req, res, next) => {
-  db.query("SELECT * FROM reply", function(error, results, fields) {
+  const idPost = req.params.id;
+  db.query(`SELECT * FROM reply WHERE idPost=${idPost}`, function(
+    error,
+    results,
+    fields
+  ) {
     if (error) throw error;
     res.end(JSON.stringify(results));
   });
 };
 exports.deleteReply = (req, res, next) => {
-  var sql = "DELETE FROM `post` WHERE `id`=?";
+  var sql = "DELETE FROM `reply` WHERE `id`=?";
   db.query(sql, [req.params.id], function(error, results, fields) {
     if (error) throw error;
     return res.send({ message: "Le fichier a été supprimé" });

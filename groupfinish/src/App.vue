@@ -8,7 +8,7 @@
         </router-link>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <router-link to="/">
+            <router-link to="/" @click="clearPostLocalStorage()">
               <li class="nav-item">
                 <div class="nav-link active" aria-current="page">
                   <i class="fas fa-home"></i>Home
@@ -40,6 +40,10 @@ export default {
       if (localStorage.getItem("user")) {
         return true;
       }
+    },
+    //Résolution d'un problème : lors d'un reply, il le faisait sur l'ancien idPost gardé dans le localstorage
+    clearPostLocalStorage: function() {
+      localStorage.removeItem("replyRoute");
     },
   },
 };

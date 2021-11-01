@@ -11,8 +11,8 @@ const multer = require("../middleware/multer-config");
 
 router.post("/", multer, thingCtrl.createThing);
 router.post("/reply", thingCtrl.createReply);
-router.get("/reply", thingCtrl.getReply);
-router.delete("/:id", thingCtrl.deleteReply);
+router.get("/reply/:id", thingCtrl.getReply);
+router.delete("/reply/:id", thingCtrl.deleteReply);
 router.get("/:id", thingCtrl.getOneThing);
 router.get("/", thingCtrl.getAllThing);
 router.put("/:id", multer, thingCtrl.modifyThing);

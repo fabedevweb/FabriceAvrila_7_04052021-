@@ -31,38 +31,14 @@
         </p>
       </div>
       <img :src="post.imageUrl" class="container__img" alt="" />
-      <div class="card-body-reply">
-        <p>Posté par 😎 {{ post.pseudo }} le {{ date }}</p>
-        <p class="card-text">
-          {{ post.comment }}
-        </p>
-      </div>
       <button
+        v-if!="formPost()"
         class="btn btn-primary rounded-0"
         type="button"
         @click="switchToReply(post)"
       >
         commenter
       </button>
-
-      <!--
-      <div class=" mt-5 mx-auto" v-if="formPost()">
-        <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label"
-            >Nom</label
-          >
-          <textarea
-            v-model="postRequest"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            rows="3"
-          ></textarea>
-        </div>
-        <button @click="requestPosts(post)" class="button">
-          <span>commenter</span>
-        </button>
-      </div>
-      -->
     </div>
   </div>
 </template>
@@ -90,27 +66,6 @@ export default {
       this.posts = res.data;
       console.log(this.posts);
     });
-    //Récupérer le pseudo pour l'afficher
-    /*
-    const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-    const userIdValue = Object.values(userIdLocaStorage);
-    const userId = userIdValue[2].pseudo;
-    console.log(userId);
-    this.pseudo = userId;
-
-    //Récupérer la date et l'heure pour le poste
-    var today = new Date();
-    var date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date + " à " + time;
-    this.date = dateTime;
-    */
   },
   methods: {
     formPost: function() {
@@ -187,5 +142,8 @@ export default {
   margin-top: 10px;
   padding: 1rem;
   background-color: #ccc;
+}
+.card-body {
+  padding: 0px;
 }
 </style>
