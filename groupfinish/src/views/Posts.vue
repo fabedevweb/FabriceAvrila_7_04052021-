@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">Bienvenue {{ pseudoPost() }}</h1>
+    <img
+      src="../assets/icon-left-font-monochrome-black.png"
+      alt="logo"
+      class="hello--img__icon"
+    />
+    <h2 class="header__posts">Bienvenue {{ pseudoPost() }}</h2>
     <div class="card mt-5 mx-auto border-0" v-if="formPost()">
       <div class="form-row">
         <input
@@ -19,24 +24,24 @@
           id="formFile"
         />
       </div>
-      <button @click="createPosts()" class="button">
+      <button @click="createPosts()" class="btn btn-primary">
         <span>Poster mon commentaire</span>
       </button>
     </div>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h3>
+      <p>
         Posté par 😎 {{ post.pseudo }}
         {{ moment(post.createdPostAt).fromNow() }}
-      </h3>
+      </p>
       <div class="card-body">
         <p class="card-text">
           {{ post.comment }}
         </p>
       </div>
-      <img :src="post.imageUrl" class="container__img" alt="" />
+      <img :src="post.imageUrl" class="container__img rounded" alt="" />
       <button
         v-if!="formPost()"
-        class="btn btn-primary rounded-0"
+        class="btn btn-primary"
         type="button"
         @click="switchToReply(post)"
       >
@@ -70,6 +75,10 @@ export default {
   },
   mounted() {
     axios.get("http://localhost:3000/api/").then((res) => {
+      this.posts = res.data;
+      console.log(this.posts);
+    });
+    axios.get("http://localhost:3000/api/reply").then((res) => {
       this.posts = res.data;
       console.log(this.posts);
     });
@@ -118,11 +127,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.hello--img__icon {
+  position: relative;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 100px;
+}
+h1 {
+  padding-top: 100px;
+  text-align: center;
+}
 .hello {
   background-color: #ccc;
 }
 .card {
   max-width: 60%;
+  min-width: 350px;
   padding: 9px;
 }
 .form-row__input--comment {
@@ -131,7 +151,7 @@ export default {
 }
 .header__posts {
   text-align: center;
-  padding-top: 97px;
+  padding-top: 42px;
 }
 .card-body-reply {
   margin-top: 10px;

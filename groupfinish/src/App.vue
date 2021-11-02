@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <nav class="navbar navbar-expand bg-dark navbar-dark">
       <div class="container-fluid">
         <h1></h1>
         <router-link to="/">
@@ -28,6 +28,11 @@
       </div>
     </nav>
     <router-view></router-view>
+    <nav class="d-flex p-4 footer">
+      <div class="">
+        <p class="text-white">Groupomania Tous droits réservés</p>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -50,10 +55,8 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
-
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -130,5 +133,11 @@ a {
   top: 0; /* Position the navbar at the top of the page */
   width: 100%;
   z-index: 1;
+}
+.navfooter {
+  height: 100px;
+}
+.footer {
+  background-color: #273c75;
 }
 </style>

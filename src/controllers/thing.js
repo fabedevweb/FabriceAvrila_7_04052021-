@@ -50,6 +50,17 @@ exports.getReply = (req, res, next) => {
     res.end(JSON.stringify(results));
   });
 };
+exports.countReply = (req, res, next) => {
+  const idPost = req.params.id;
+  db.query(`SELECT COUNT(*) FROM reply WHERE idPost = ${idPost}`, function(
+    error,
+    results,
+    fields
+  ) {
+    if (error) throw error;
+    res.end(JSON.stringify(results));
+  });
+};
 exports.deleteReply = (req, res, next) => {
   var sql = "DELETE FROM `reply` WHERE `id`=?";
   db.query(sql, [req.params.id], function(error, results, fields) {

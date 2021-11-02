@@ -1,8 +1,15 @@
 <template>
   <div class="profile">
+    <div class="hello--img mx-auto">
+      <img
+        src="../assets/icon-left-font-monochrome-black.png"
+        alt="logo"
+        class="hello--img__icon"
+      />
+    </div>
     <div class="card mx-auto mt-5 border-0 card-profile" v-if="formPost()">
       <h1 class="card__title" @click="userLocalStorage()">
-        Mon profil 😏 {{ pseudo }}
+        Salut 😏 {{ pseudo }}
       </h1>
       <p class="card__subtitle">{{ userId }}</p>
       <p>{{ user.comment }} {{ user.imageUrl }}</p>
@@ -33,6 +40,7 @@
         >
           Supprimer mon post
         </button>
+
         <img
           :src="post.imageUrl"
           class="container__img"
@@ -60,6 +68,10 @@
         >
           ADMIN "supprimer le post"
         </button>
+        <p>
+          Posté par 😎 {{ admin.pseudo }}
+          {{ moment(admin.createdPostAt).fromNow() }}
+        </p>
         <img
           :src="admin.imageUrl"
           class="container__img"
@@ -77,12 +89,15 @@
 </template>
 
 <script>
+const moment = require("moment");
+require("moment/locale/fr.js");
 import { mapState } from "vuex";
 import axios from "axios";
 export default {
   name: "Profile",
   data() {
     return {
+      moment: moment,
       posts: [],
       userId: "",
       comment: "",
@@ -194,6 +209,16 @@ export default {
 </script>
 
 <style scoped>
+.hello--img {
+  max-width: 50%;
+  height: 173px;
+}
+.hello--img__icon {
+  position: relative;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 100px;
+}
 .card-profile {
   padding-top: 100px;
 }
@@ -205,6 +230,7 @@ export default {
 }
 .card {
   max-width: 60%;
+  min-width: 350px;
 }
 
 .header {

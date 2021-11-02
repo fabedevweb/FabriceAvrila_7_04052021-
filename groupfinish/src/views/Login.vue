@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-5">
+  <div class="card mt-5 mx-auto">
     <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
     <h1 class="card__title" v-else>Inscription</h1>
     <p class="card__subtitle" v-if="mode == 'login'">
@@ -171,6 +171,10 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  top: 200px;
+  min-width: 350px;
+}
 .form-row {
   display: flex;
   margin: 16px 0px;

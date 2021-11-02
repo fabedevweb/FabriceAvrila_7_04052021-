@@ -2,10 +2,10 @@
   <div class="hello">
     <h1 class="header__posts">Réponds au post</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h3>
+      <p>
         Posté par 😎 {{ post.pseudo }}
         {{ moment(post.createdPostAt).fromNow() }}
-      </h3>
+      </p>
       <div class="card-body">
         <p class="card-text">
           {{ post.comment }}
@@ -20,7 +20,7 @@
         <p>
           <button
             v-if="reply.replyUserNow == 'admin'"
-            class="btn btn-danger rounded-0"
+            class="btn btn-danger"
             @click="deleteReply(replyPost)"
           >
             delete
@@ -37,17 +37,13 @@
       <input
         v-model="comment"
         type="text"
-        class="form-control rounded-0 mt-2 form-row__input--comment"
+        class="form-control mt-2 form-row__input--comment"
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-default"
         placeholder="commenter"
       />
       <div class="d-grid gap-2">
-        <button
-          class="btn btn-primary rounded-0"
-          type="button"
-          @click="createPosts()"
-        >
+        <button class="btn btn-primary " type="button" @click="createPosts()">
           Poster mon commentaire
         </button>
       </div>
@@ -164,13 +160,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .reply {
-  width: 60%;
+  max-width: 60%;
+  min-width: 350px;
 }
 .hello {
   background-color: #ccc;
 }
 .card {
   max-width: 60%;
+  min-width: 350px;
   padding: 9px;
 }
 .form-row__input--comment {
