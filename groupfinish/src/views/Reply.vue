@@ -2,7 +2,10 @@
   <div class="hello">
     <h1 class="header__posts">Réponds au post</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h3>Posté par 😎 {{ post.pseudo }}</h3>
+      <h3>
+        Posté par 😎 {{ post.pseudo }}
+        {{ moment(post.createdPostAt).fromNow() }}
+      </h3>
       <div class="card-body">
         <p class="card-text">
           {{ post.comment }}
@@ -16,7 +19,7 @@
       >
         <p>
           <button
-            v-if="replyPost.pseudo == admin"
+            v-if="reply.replyUserNow == 'admin'"
             class="btn btn-danger rounded-0"
             @click="deleteReply(replyPost)"
           >

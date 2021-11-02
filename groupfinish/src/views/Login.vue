@@ -75,7 +75,6 @@ export default {
   name: "Login",
   data: function() {
     return {
-      error: null,
       mode: "login",
       email: null,
       pseudo: null,
@@ -130,7 +129,7 @@ export default {
         );
     },
     createAccount: function() {
-      //const self = this;
+      const self = this;
       if (!this.pseudo) {
         console.log("renseigner le pseudo");
       }
@@ -156,7 +155,7 @@ export default {
           })
           .then(
             function() {
-              this.login();
+              self.login();
             },
             function(error) {
               console.log(error);

@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">Bienvenue {{}}</h1>
+    <h1 class="header__posts">Bienvenue {{ pseudoPost() }}</h1>
     <div class="card mt-5 mx-auto border-0" v-if="formPost()">
       <div class="form-row">
         <input
@@ -25,7 +25,7 @@
     </div>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
       <h3>
-        Posté par 😎 {{ post.pseudo }} le
+        Posté par 😎 {{ post.pseudo }}
         {{ moment(post.createdPostAt).fromNow() }}
       </h3>
       <div class="card-body">
@@ -65,6 +65,7 @@ export default {
       postRequest: "",
       date: "",
       mode: "",
+      pseudoPage: "",
     };
   },
   mounted() {
@@ -74,6 +75,15 @@ export default {
     });
   },
   methods: {
+    pseudoPost: function() {
+      if (localStorage.getItem("user")) {
+        const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+        const userIdValue = Object.values(userIdLocaStorage);
+        const pseudo = userIdValue[2].pseudo;
+        this.pseudoPage = pseudo;
+        return this.pseudoPage;
+      }
+    },
     formPost: function() {
       if (localStorage.getItem("user")) {
         return true;
