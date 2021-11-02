@@ -24,7 +24,10 @@
       </button>
     </div>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h3>Posté par 😎 {{ post.pseudo }} le {{ date }}</h3>
+      <h3>
+        Posté par 😎 {{ post.pseudo }} le
+        {{ moment(post.createdPostAt).fromNow() }}
+      </h3>
       <div class="card-body">
         <p class="card-text">
           {{ post.comment }}
@@ -44,11 +47,14 @@
 </template>
 
 <script>
+const moment = require("moment");
+require("moment/locale/fr.js");
 import axios from "axios";
 export default {
   name: "Home",
   data() {
     return {
+      moment: moment,
       posts: [],
       userId: "",
       comment: "",
@@ -95,27 +101,6 @@ export default {
       this.$router.push("/reply");
       this.post = post.id;
       localStorage.setItem("reply", JSON.stringify(this.post));
-    },
-    replyPost: function(post) {
-      //const fd = new FormData();
-      //const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-      //const userIdValue = Object.values(userIdLocaStorage);
-      //const userId = userIdValue[2].id;
-      //const replyPost = this.post.reply;
-      //const pseudo = userIdValue[2].pseudo;
-      /*
-      fd.append("comment", this.comment);
-      fd.append("userId", userId);
-      fd.append("pseudo", pseudo);
-      axios.post("http://localhost:3000/api/", fd).then((res) => {
-        console.log(res, this.postRequest);
-      });
-      location.reload();
-      Réupération id avec post.id
-      Récupération de l'userId avec la variable userId
-      */
-
-      console.log(post.reply);
     },
   },
 };

@@ -2,7 +2,7 @@
   <div class="hello">
     <h1 class="header__posts">Réponds au post</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h3>Posté par 😎 {{ post.pseudo }} le {{ date }}</h3>
+      <h3>Posté par 😎 {{ post.pseudo }}</h3>
       <div class="card-body">
         <p class="card-text">
           {{ post.comment }}
@@ -16,12 +16,16 @@
       >
         <p>
           <button
+            v-if="replyPost.pseudo == admin"
             class="btn btn-danger rounded-0"
             @click="deleteReply(replyPost)"
           >
             delete
           </button>
-          Posté par <span> {{ replyPost.pseudo }} : </span
+          Posté par
+          <span>
+            {{ replyPost.pseudo }}
+            {{ moment(replyPost.createdPostAt).fromNow() }} : </span
           >{{ replyPost.comment }}
         </p>
       </div>
@@ -49,11 +53,14 @@
 </template>
 
 <script>
+const moment = require("moment");
+require("moment/locale/fr.js");
 import axios from "axios";
 export default {
   name: "Home",
   data() {
     return {
+      moment: moment,
       posts: [],
       replyPost: [],
       replyPosts: [],
@@ -67,12 +74,15 @@ export default {
       date: "",
       mode: "",
       replyShowPage: "",
+      admin: "",
       reply: {
         id: "",
         imageUrl: "",
         userId: "",
         pseudo: "",
         reply: "",
+        date: "",
+        replyUserNow: "",
       },
     };
   },
@@ -94,7 +104,11 @@ export default {
     this.reply.pseudo = idLicalStorage2[0].pseudo;
     this.reply.comment = idLicalStorage2[0].comment;
 
-    //Voir tous les reply correspondant au id du post
+    //Récupération des des infos du localstorage pour afficher le reply de la personne connectée
+    const idLicalStorage3 = JSON.parse(localStorage.getItem("user"));
+    this.reply.replyUserNow = idLicalStorage3.user.pseudo;
+    console.log(this.reply.replyUserNow);
+    //Voir tous les reply correspondant au id du post affiché
     axios
       .get(`http://localhost:3000/api/reply/${idLicalStorage}`)
       .then((res) => {
@@ -108,6 +122,7 @@ export default {
         return true;
       }
     },
+
     onFileChange: function(event) {
       this.selectFile = event.target.files[0];
     },
@@ -117,7 +132,7 @@ export default {
           idPost: this.reply.id,
           comment: this.comment,
           userId: this.reply.userId,
-          pseudo: this.reply.pseudo,
+          pseudo: this.reply.replyUserNow,
         })
         .then((res) => {
           console.log(res, "Commentaire envoyé");

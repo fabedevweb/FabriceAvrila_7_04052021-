@@ -13,7 +13,7 @@ exports.createThing = (req, res, next) => {
   const likes = (req.body.likes = 0);
   const dislikes = (req.body.dislikes = 0);
 
-  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}', date=NOW()`;
+  const sql = `INSERT post SET userId ='${userId}', pseudo ='${pseudo}',comment ='${comment}', imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
   } else {
@@ -31,7 +31,7 @@ exports.createReply = (req, res, next) => {
   const pseudo = req.body.pseudo;
   const idPost = req.body.idPost;
 
-  const sql = `INSERT reply SET userId ='${userId}',comment ='${comment}', pseudo ='${pseudo}', idPost ='${idPost}'`;
+  const sql = `INSERT reply SET userId ='${userId}',comment ='${comment}',pseudo ='${pseudo}', idPost ='${idPost}'`;
   db.query(sql, (err) => {
     if (err) {
       throw err;
@@ -58,7 +58,11 @@ exports.deleteReply = (req, res, next) => {
   });
 };
 exports.getAllThing = (req, res, next) => {
-  db.query("SELECT * FROM post", function(error, results, fields) {
+  db.query("SELECT * FROM post ORDER BY createdPostAt DESC", function(
+    error,
+    results,
+    fields
+  ) {
     if (error) throw error;
     res.end(JSON.stringify(results));
   });
