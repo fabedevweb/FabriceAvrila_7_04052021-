@@ -78,10 +78,12 @@ export default {
       this.posts = res.data;
       console.log(this.posts);
     });
-    axios.get("http://localhost:3000/api/reply").then((res) => {
-      this.posts = res.data;
-      console.log(this.posts);
+    /*
+    axios.get("http://localhost:3000/api/countReply").then((res) => {
+      this.count = res.data;
+      console.log(this.count);
     });
+    */
   },
   methods: {
     pseudoPost: function() {
