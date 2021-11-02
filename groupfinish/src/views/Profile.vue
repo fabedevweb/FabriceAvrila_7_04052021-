@@ -11,9 +11,9 @@
           Déconnexion
         </button>
       </div>
-      <div class="text-center">
+      <div class="text-center" v-if="pseudoAdmin()">
         <button
-          @click="deleteAccount(post)"
+          @click="deleteAccount()"
           class="btn btn-danger btn-lg mt-2 text-center"
         >
           😰 Supprimer mon compte 😨
@@ -125,6 +125,11 @@ export default {
     }),
   },
   methods: {
+    pseudoAdmin: function() {
+      if (this.pseudo !== "admin") {
+        return true;
+      }
+    },
     formPost: function() {
       if (localStorage.getItem("user")) {
         return true;
@@ -170,7 +175,9 @@ export default {
     test: function(post) {
       console.log(post);
     },
+    deleteAccountSecrurity: function() {},
     deleteAccount: function() {
+      alert("Voulez-vous vraiment supprimer votre compte ?");
       const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
       const userIdValue = Object.values(userIdLocaStorage);
       const userId = userIdValue[2].id;
@@ -179,6 +186,7 @@ export default {
         console.log(userId);
       });
       localStorage.removeItem("user");
+
       location.reload();
     },
   },

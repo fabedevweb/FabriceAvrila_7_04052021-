@@ -68,7 +68,7 @@ const store = createStore({
   actions: {
     login: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         instance
           .post("auth/login", userInfos)
           .then(function(response) {
@@ -78,13 +78,14 @@ const store = createStore({
           })
           .catch(function(error) {
             commit("setStatus", "error_login");
-            reject(error);
+            alert(error + "Email ou mot de passe incorrect");
+            location.reload();
           });
       });
     },
     createAccount: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         commit;
         instance
           .post("auth/signup", userInfos)
@@ -94,7 +95,9 @@ const store = createStore({
           })
           .catch(function(error) {
             commit("setStatus", "error_create");
-            reject(error);
+            //reject(error);
+            alert(error + "L'email est déjà utilisé");
+            location.reload();
           });
       });
     },

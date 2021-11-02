@@ -16,7 +16,8 @@
       <input
         v-model="email"
         class="form-row__input"
-        type="text"
+        type="email"
+        name="email"
         placeholder="Adresse mail"
       />
     </div>
@@ -36,12 +37,14 @@
         placeholder="Mot de passe"
       />
     </div>
+    <!--
     <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
       Adresse mail et/ou mot de passe invalide
     </div>
     <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-      Adresse mail déjà utilisée
+      {{ error }}
     </div>
+    -->
     <div class="form-row">
       <button
         @click="login()"
@@ -72,10 +75,11 @@ export default {
   name: "Login",
   data: function() {
     return {
+      error: null,
       mode: "login",
-      email: "",
-      pseudo: "",
-      password: "",
+      email: null,
+      pseudo: null,
+      password: null,
     };
   },
   mounted: function() {
@@ -126,21 +130,42 @@ export default {
         );
     },
     createAccount: function() {
-      const self = this;
-      this.$store
-        .dispatch("createAccount", {
-          email: this.email,
-          pseudo: this.pseudo,
-          password: this.password,
-        })
-        .then(
-          function() {
-            self.login();
-          },
-          function(error) {
-            console.log(error);
-          }
-        );
+      //const self = this;
+      if (!this.pseudo) {
+        console.log("renseigner le pseudo");
+      }
+      if (!this.email) {
+        console.log("renseigner l'email");
+      }
+      if (!this.password) {
+        console.log("renseigner le password");
+      } else if (!this.validEmail(this.email)) {
+        console.log("format email non accepté");
+      }
+      if (
+        this.pseudo &&
+        this.email &&
+        this.password &&
+        this.validEmail(this.email)
+      )
+        this.$store
+          .dispatch("createAccount", {
+            email: this.email,
+            pseudo: this.pseudo,
+            password: this.password,
+          })
+          .then(
+            function() {
+              this.login();
+            },
+            function(error) {
+              console.log(error);
+            }
+          );
+    },
+    validEmail: function(email) {
+      var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$/;
+      return re.test(email);
     },
   },
 };
