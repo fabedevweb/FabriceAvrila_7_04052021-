@@ -22,8 +22,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-// parse request data content type application/x-www-form-rulencoded
-//pp.use(bodyParser.urlencoded({ extended: false }));
 
 // parse request data content type application/json
 app.use(bodyParser.json());
