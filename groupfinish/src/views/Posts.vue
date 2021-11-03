@@ -19,20 +19,20 @@
         aria-labelledby="formulaire pour poster un commentaire"
         v-if="formPost()"
       >
-        <div class="form-row">
+        <div class="form-row ">
           <input
             v-model="comment"
-            class="form-row__input form-row__input--comment"
+            class="form-row__input form-row__input--comment border-0"
             type="text"
-            placeholder="comment"
+            placeholder="Rédigez un commentaire"
             aria-label="Écrivez ici votre commentaire"
           />
         </div>
-        <div class="mb-3 ">
+        <div class="mb-3 border-0">
           <!--<label for="formFile" class="form-label"></label>-->
           <input
             @change="onFileChange"
-            class="form-control"
+            class="form-control border-0"
             type="file"
             id="formFile"
             aria-label="Cliquez ici pour télécharger une image"
@@ -64,11 +64,11 @@
         />
         <button
           v-if!="formPost()"
-          class="btn btn-primary"
+          class="btn btn-primary button--reply"
           type="button"
           @click="switchToReply(post)"
         >
-          commenter
+          <i class="far fa-comment-alt"></i>
         </button>
       </div>
     </div>
@@ -182,5 +182,8 @@ h1 {
 }
 .card-body {
   padding: 0px;
+}
+.button--reply {
+  margin-top: 20px;
 }
 </style>

@@ -1,69 +1,78 @@
 <template>
-  <div class="card mt-5 mx-auto">
+  <div>
+    <img
+      src="../assets/icon-left-font-monochrome-black.png"
+      alt="logo avec typographie Groupomania"
+      class="hello--img__icon"
+    />
     <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
     <h1 class="card__title" v-else>Inscription</h1>
-    <p class="card__subtitle" v-if="mode == 'login'">
-      Tu n'as pas encore de compte ?
-      <span class="card__action" @click="switchToCreateAccount()"
-        >Créer un compte</span
-      >
-    </p>
-    <p class="card__subtitle" v-else>
-      Tu as déjà un compte ?
-      <span class="card__action" @click="switchToLogin()">Se connecter</span>
-    </p>
-    <div class="form-row">
-      <input
-        v-model="email"
-        class="form-row__input"
-        type="email"
-        name="email"
-        placeholder="Adresse mail"
-      />
-    </div>
-    <div class="form-row" v-if="mode == 'create'">
-      <input
-        v-model="pseudo"
-        class="form-row__input"
-        type="text"
-        placeholder="Pseudo"
-      />
-    </div>
-    <div class="form-row">
-      <input
-        v-model="password"
-        class="form-row__input"
-        type="password"
-        placeholder="Mot de passe"
-      />
-    </div>
-    <!--
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
-      Adresse mail et/ou mot de passe invalide
-    </div>
-    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-      {{ error }}
-    </div>
-    -->
-    <div class="form-row">
+    <div class="card mt-5 mx-auto">
       <button
-        @click="login()"
-        class="button"
-        :class="{ 'button--disabled': !validatedFields }"
+        class="card__subtitle btn btn-outline-dark col-9 mx-auto"
+        @click="switchToCreateAccount()"
         v-if="mode == 'login'"
       >
-        <span v-if="status == 'loading'">Connexion en cours...</span>
-        <span v-else>Connexion</span>
+        J'aimerais avoir un compte
       </button>
       <button
-        @click="createAccount()"
-        class="button"
-        :class="{ 'button--disabled': !validatedFields }"
+        class="card__subtitle btn btn-outline-dark col-9 mx-auto"
+        @click="switchToLogin()"
         v-else
       >
-        <span v-if="status == 'loading'">Création en cours...</span>
-        <span v-else>Créer mon compte</span>
+        J'ai déjà un compte
       </button>
+      <div class="form-row">
+        <input
+          v-model="email"
+          class="form-row__input"
+          type="email"
+          name="email"
+          placeholder="Adresse mail"
+          aria-label="Veuillez renseigner votre adresse mail"
+        />
+      </div>
+      <div class="form-row" v-if="mode == 'create'">
+        <input
+          v-model="pseudo"
+          class="form-row__input"
+          type="text"
+          placeholder="Pseudo"
+          aria-label="Veuillez renseigner votre pseudo"
+        />
+      </div>
+      <div class="form-row">
+        <input
+          v-model="password"
+          class="form-row__input"
+          type="password"
+          placeholder="Mot de passe"
+          aria-label="Veuillez renseigner votre mot de passe"
+        />
+      </div>
+      <div class="form-row d-grid gap-2 col-9 mx-auto">
+        <button
+          @click="login()"
+          class="btn btn-success"
+          type="button"
+          :class="{ 'button--disabled': !validatedFields }"
+          v-if="mode == 'login'"
+          aria-label="Cliquez ici pour vous connecter"
+        >
+          <span v-if="status == 'loading'">Connexion en cours...</span>
+          <span v-else>Connexion</span>
+        </button>
+        <button
+          @click="createAccount()"
+          class="btn btn-success"
+          :class="{ 'button--disabled': !validatedFields }"
+          aria-label="Cliquez ici pour vous inscrire"
+          v-else
+        >
+          <span v-if="status == 'loading'">Création en cours...</span>
+          <span v-else>Créer mon compte</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -171,9 +180,22 @@ export default {
 </script>
 
 <style scoped>
+.hello--img__icon {
+  position: relative;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 100px;
+}
+h1 {
+  margin-top: 100px;
+}
+.card__action {
+  text-decoration: none !important;
+}
 .card {
-  top: 200px;
+  max-width: 50%;
   min-width: 350px;
+  margin-bottom: 100%;
 }
 .form-row {
   display: flex;

@@ -192,17 +192,20 @@ export default {
     },
     deleteAccountSecrurity: function() {},
     deleteAccount: function() {
-      alert("Voulez-vous vraiment supprimer votre compte ?");
-      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-      const userIdValue = Object.values(userIdLocaStorage);
-      const userId = userIdValue[2].id;
-      axios.delete(`http://localhost:3000/api/auth/${userId}`).then((res) => {
-        this.posts = res.data;
-        console.log(userId);
-      });
-      localStorage.removeItem("user");
+      if (confirm("Voulez-vous vraiment supprimer votre compte ?")) {
+        const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+        const userIdValue = Object.values(userIdLocaStorage);
+        const userId = userIdValue[2].id;
+        axios.delete(`http://localhost:3000/api/auth/${userId}`).then((res) => {
+          this.posts = res.data;
+          console.log(userId);
+        });
+        localStorage.removeItem("user");
 
-      location.reload();
+        location.reload();
+      } else {
+        this.$router.push("/profile");
+      }
     },
   },
 };
