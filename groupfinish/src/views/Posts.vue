@@ -2,51 +2,75 @@
   <div class="hello">
     <img
       src="../assets/icon-left-font-monochrome-black.png"
-      alt="logo"
+      alt="logo avec typographie Groupomania"
       class="hello--img__icon"
     />
-    <h2 class="header__posts">Bienvenue {{ pseudoPost() }}</h2>
-    <div class="card mt-5 mx-auto border-0" v-if="formPost()">
-      <div class="form-row">
-        <input
-          v-model="comment"
-          class="form-row__input form-row__input--comment"
-          type="text"
-          placeholder="comment"
-        />
-      </div>
-      <div class="mb-3 ">
-        <label for="formFile" class="form-label"></label>
-        <input
-          @change="onFileChange"
-          class="form-control"
-          type="file"
-          id="formFile"
-        />
-      </div>
-      <button @click="createPosts()" class="btn btn-primary">
-        <span>Poster mon commentaire</span>
-      </button>
-    </div>
-    <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <p>
-        Posté par 😎 {{ post.pseudo }}
-        {{ moment(post.createdPostAt).fromNow() }}
-      </p>
-      <div class="card-body">
-        <p class="card-text">
-          {{ post.comment }}
-        </p>
-      </div>
-      <img :src="post.imageUrl" class="container__img rounded" alt="" />
-      <button
-        v-if!="formPost()"
-        class="btn btn-primary"
-        type="button"
-        @click="switchToReply(post)"
+    <div role="main" aria-labelledby="foo">
+      <h1 class="header__posts" id="foo">
+        Bienvenue
+        <span class="text-uppercase text-primary fw-bold">{{
+          pseudoPost()
+        }}</span>
+      </h1>
+
+      <div
+        class="card mt-5 mx-auto border-0"
+        role="group"
+        aria-labelledby="formulaire pour poster un commentaire"
+        v-if="formPost()"
       >
-        commenter
-      </button>
+        <div class="form-row">
+          <input
+            v-model="comment"
+            class="form-row__input form-row__input--comment"
+            type="text"
+            placeholder="comment"
+            aria-label="Écrivez ici votre commentaire"
+          />
+        </div>
+        <div class="mb-3 ">
+          <!--<label for="formFile" class="form-label"></label>-->
+          <input
+            @change="onFileChange"
+            class="form-control"
+            type="file"
+            id="formFile"
+            aria-label="Cliquez ici pour télécharger une image"
+          />
+        </div>
+        <button @click="createPosts()" class="btn btn-primary">
+          <span>Poster mon commentaire</span>
+        </button>
+      </div>
+      <div
+        class="card mt-3 mx-auto active"
+        :key="index"
+        v-for="(post, index) in posts"
+        aria-label="post"
+      >
+        <h2 class="fs-5">
+          Posté par 😎 {{ post.pseudo }}
+          {{ moment(post.createdPostAt).fromNow() }}
+        </h2>
+        <div class="card-body">
+          <h3 class="card-text fs-6">
+            {{ post.comment }}
+          </h3>
+        </div>
+        <img
+          :src="post.imageUrl"
+          class="container__img rounded"
+          alt="Image du post"
+        />
+        <button
+          v-if!="formPost()"
+          class="btn btn-primary"
+          type="button"
+          @click="switchToReply(post)"
+        >
+          commenter
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -73,18 +97,14 @@ export default {
       pseudoPage: "",
     };
   },
+
   mounted() {
     axios.get("http://localhost:3000/api/").then((res) => {
       this.posts = res.data;
       console.log(this.posts);
     });
-    /*
-    axios.get("http://localhost:3000/api/countReply").then((res) => {
-      this.count = res.data;
-      console.log(this.count);
-    });
-    */
   },
+
   methods: {
     pseudoPost: function() {
       if (localStorage.getItem("user")) {

@@ -9,7 +9,7 @@
     </div>
     <div class="card mx-auto mt-5 border-0 card-profile" v-if="formPost()">
       <h1 class="card__title" @click="userLocalStorage()">
-        Salut 😏 {{ pseudo }}
+        Salut 😏 <span class="text-uppercase text-primary">{{ pseudo }}</span>
       </h1>
       <p class="card__subtitle">{{ userId }}</p>
       <p>{{ user.comment }} {{ user.imageUrl }}</p>

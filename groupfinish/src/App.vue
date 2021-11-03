@@ -1,24 +1,37 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand bg-dark navbar-dark">
+    <nav class="navbar navbar-expand navbar-dark">
       <div class="container-fluid">
-        <h1></h1>
-        <router-link to="/">
-          <img src="./assets/icon.png" class="navbar-brand logo" alt="logo" />
+        <router-link
+          to="/"
+          aria-label="Cliquez sur ce logo pour aller à l'accueil"
+        >
+          <img
+            src="./assets/icon.png"
+            class="navbar-brand logo"
+            alt="logo du site"
+          />
         </router-link>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <router-link to="/" @click="clearPostLocalStorage()">
+            <router-link
+              to="/"
+              @click="clearPostLocalStorage()"
+              aria-label="Cliquez pour aller à l'accueil"
+            >
               <li class="nav-item">
-                <div class="nav-link active" aria-current="page">
-                  <i class="fas fa-home"></i>Home
+                <div class="nav-link active text-dark" aria-current="page">
+                  <i class="fas fa-home "></i>HOME
                 </div>
               </li>
             </router-link>
           </ul>
-          <router-link to="/login">
+          <router-link
+            to="/login"
+            aria-label="Cliquez sur le boutton login pour vous inscrire ou vous connecter"
+          >
             <form class="d-flex">
-              <button class="btn btn-outline-success" type="submit">
+              <button class="btn btn-outline-dark" type="submit">
                 <span v-if="formPost()">Mon profil</span>
                 <span v-else>Login</span>
               </button>
@@ -28,11 +41,11 @@
       </div>
     </nav>
     <router-view></router-view>
-    <nav class="d-flex p-4 footer">
+    <footer class="d-flex p-4 footer">
       <div class="">
-        <p class="text-white">Groupomania Tous droits réservés</p>
+        <p class="text-dark">Groupomania Tous droits réservés</p>
       </div>
-    </nav>
+    </footer>
   </div>
 </template>
 
@@ -128,16 +141,13 @@ a {
 }
 .navbar {
   overflow: hidden;
-  background-color: #333;
+  background-color: #ffd7d7;
   position: fixed; /* Set the navbar to fixed position */
   top: 0; /* Position the navbar at the top of the page */
   width: 100%;
   z-index: 1;
 }
-.navfooter {
-  height: 100px;
-}
 .footer {
-  background-color: #273c75;
+  background-color: #ffd7d7;
 }
 </style>

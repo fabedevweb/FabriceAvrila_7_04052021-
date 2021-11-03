@@ -106,13 +106,13 @@ export default {
     //Récupération des des infos du localstorage pour afficher le reply de la personne connectée
     const idLicalStorage3 = JSON.parse(localStorage.getItem("user"));
     this.reply.replyUserNow = idLicalStorage3.user.pseudo;
-    console.log(this.reply.replyUserNow);
+    //console.log(this.reply.replyUserNow);
     //Voir tous les reply correspondant au id du post affiché
     axios
       .get(`http://localhost:3000/api/reply/${idLicalStorage}`)
       .then((res) => {
         this.replyPosts = res.data;
-        console.log(this.replyPosts);
+        //console.log(this.replyPosts);
       });
   },
   methods: {

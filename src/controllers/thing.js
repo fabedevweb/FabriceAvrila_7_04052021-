@@ -50,19 +50,7 @@ exports.getReply = (req, res, next) => {
     res.end(JSON.stringify(results));
   });
 };
-/*
-exports.countReply = (req, res, next) => {
-  const id = req.params.id;
-  db.query(`SELECT COUNT(*) FROM post WHERE id = ${id}`, function(
-    error,
-    results,
-    fields
-  ) {
-    if (error) throw error;
-    res.end(JSON.stringify(results));
-  });
-};
-*/
+
 exports.deleteReply = (req, res, next) => {
   var sql = "DELETE FROM `reply` WHERE `id`=?";
   db.query(sql, [req.params.id], function(error, results, fields) {
@@ -113,4 +101,3 @@ exports.deleteThing = (req, res, next) => {
     return res.send({ message: "Le fichier a été supprimé" });
   });
 };
-exports.likeThing = (req, res, next) => {};
