@@ -2,7 +2,7 @@
 node_modules
 /dist
 /Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/groupfinish/src/assets
-
+/Users/fabriceavrila/Desktop/projets_OCR/projet7-groupomania/images
 # local env files
 .env.local
 .env.*.local
