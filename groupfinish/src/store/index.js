@@ -7,25 +7,24 @@ const instance = axios.create({
 });
 
 let user = localStorage.getItem("user");
-console.log(user);
-/*
+
 if (!user) {
   user = {
-    userId: -1,
+    userId: null,
     token: "",
   };
 } else {
   try {
     user = JSON.parse(user);
-    //instance.defaults.headers.common["Authorization"] = user.token;
+    instance.defaults.headers.common["Authorization"] = user.token;
   } catch (ex) {
     user = {
-      userId: -1,
+      userId: null,
       token: "",
     };
   }
 }
-*/
+
 const store = createStore({
   state: {
     status: "",
@@ -47,7 +46,7 @@ const store = createStore({
     },
     */
     logUser: function(state, user) {
-      //instance.defaults.headers.common["Authorization"] = user.token;
+      instance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
@@ -99,6 +98,21 @@ const store = createStore({
             //reject(error);
             alert(error + "L'email est déjà utilisé");
             location.reload();
+          });
+      });
+    },
+    getPosts: ({ commit }) => {
+      //commit("setStatus", "loading");
+      return new Promise((resolve) => {
+        commit;
+        instance
+          .get("/")
+          .then(function(response) {
+            commit("logUser", response.data);
+            resolve(response);
+          })
+          .catch(function(error) {
+            console.log(error);
           });
       });
     },

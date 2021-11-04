@@ -99,10 +99,17 @@ export default {
   },
 
   mounted() {
+    const self = this;
+    self.$store.dispatch("getPosts", {}).then((res) => {
+      this.posts = res.data;
+      console.log(this.posts);
+    });
+    /*
     axios.get("http://localhost:3000/api/").then((res) => {
       this.posts = res.data;
       console.log(this.posts);
     });
+    */
   },
 
   methods: {
