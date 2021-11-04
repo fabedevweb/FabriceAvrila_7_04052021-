@@ -11,8 +11,6 @@
       <h1 class="card__title" @click="userLocalStorage()">
         Salut 😏 <span class="text-uppercase text-primary">{{ pseudo }}</span>
       </h1>
-      <p class="card__subtitle">{{ userId }}</p>
-      <p>{{ user.comment }} {{ user.imageUrl }}</p>
       <div class="form-row text-center">
         <button @click="logout()" class="btn btn-primary btn-lg">
           Déconnexion
@@ -91,7 +89,7 @@
 <script>
 const moment = require("moment");
 require("moment/locale/fr.js");
-import { mapState } from "vuex";
+//import { mapState } from "vuex";
 import axios from "axios";
 export default {
   name: "Profile",
@@ -110,12 +108,13 @@ export default {
     };
   },
   mounted: function() {
+    /*
     console.log(this.$store.state.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/");
       return;
     }
-    this.$store.dispatch("getUserInfos");
+    */
     const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
     const userIdValue = Object.values(userIdLocaStorage);
     const userId = userIdValue[2].id;
@@ -134,11 +133,13 @@ export default {
       });
     }
   },
+  /*
   computed: {
     ...mapState({
       user: "userInfos",
     }),
   },
+  */
   methods: {
     pseudoAdmin: function() {
       if (this.pseudo !== "admin") {
@@ -163,23 +164,6 @@ export default {
     onFileChange: function(event) {
       this.selectFile = event.target.files[0];
     },
-    modifyPosts: function(post) {
-      const fd = new FormData();
-      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-      const userIdValue = Object.values(userIdLocaStorage);
-      const userId = userIdValue[2].id;
-      const pseudo = userIdValue[2].pseudo;
-      fd.append("image", this.selectFile, this.selectFile.name);
-      fd.append("comment", this.comment);
-      fd.append("userId", userId);
-      fd.append("pseudo", pseudo);
-      axios.put(`http://localhost:3000/api/${post.id}`, fd).then((res) => {
-        console.log(res, this.pseudo);
-      });
-      //location.reload();
-
-      console.log(post);
-    },
     deletePosts: function(post) {
       axios.delete(`http://localhost:3000/api/${post.id}`).then((res) => {
         console.log(res, this.pseudo);
@@ -190,7 +174,7 @@ export default {
     test: function(post) {
       console.log(post);
     },
-    deleteAccountSecrurity: function() {},
+    //deleteAccountSecrurity: function() {},
     deleteAccount: function() {
       if (confirm("Voulez-vous vraiment supprimer votre compte ?")) {
         const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));

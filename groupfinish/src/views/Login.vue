@@ -59,8 +59,8 @@
           v-if="mode == 'login'"
           aria-label="Cliquez ici pour vous connecter"
         >
-          <span v-if="status == 'loading'">Connexion en cours...</span>
-          <span v-else>Connexion</span>
+          <!-- <span v-if="status == 'loading'">Connexion en cours...</span>-->
+          <span>Connexion</span>
         </button>
         <button
           @click="createAccount()"
@@ -69,8 +69,8 @@
           aria-label="Cliquez ici pour vous inscrire"
           v-else
         >
-          <span v-if="status == 'loading'">Création en cours...</span>
-          <span v-else>Créer mon compte</span>
+          <!--<span v-if="status == 'loading'">Création en cours...</span>-->
+          <span>Créer mon compte</span>
         </button>
       </div>
     </div>
@@ -91,11 +91,18 @@ export default {
     };
   },
   mounted: function() {
+    if (localStorage.getItem("user")) {
+      this.$router.push("/profile");
+      return;
+    }
+  },
+  /*
     if (this.$store.state.user.userId != -1) {
       this.$router.push("/profile");
       return;
     }
   },
+  */
   computed: {
     validatedFields: function() {
       if (this.mode == "create") {
