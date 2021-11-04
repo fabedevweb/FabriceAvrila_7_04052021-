@@ -152,7 +152,7 @@ export default {
       }
     },
     logout: function() {
-      this.$store.commit("logout");
+      localStorage.clear();
       this.$router.push("/");
     },
     switchToCreateAccount: function() {
