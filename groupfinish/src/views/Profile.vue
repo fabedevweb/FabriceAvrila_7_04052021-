@@ -108,13 +108,12 @@ export default {
     };
   },
   mounted: function() {
-    /*
     console.log(this.$store.state.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/");
       return;
     }
-    */
+
     const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
     const userIdValue = Object.values(userIdLocaStorage);
     const userId = userIdValue[2].id;
@@ -139,7 +138,7 @@ export default {
       user: "userInfos",
     }),
   },
-  */
+*/
   methods: {
     pseudoAdmin: function() {
       if (this.pseudo !== "admin") {

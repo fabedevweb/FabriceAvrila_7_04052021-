@@ -50,6 +50,9 @@ const store = createStore({
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
+    security: function() {
+      console.log("YEH");
+    },
     userInfos: function(state, userInfos) {
       state.userInfos = userInfos;
     },
@@ -108,7 +111,7 @@ const store = createStore({
         instance
           .get("/")
           .then(function(response) {
-            commit("logUser", response.data);
+            commit("security", response.data);
             resolve(response);
           })
           .catch(function(error) {
