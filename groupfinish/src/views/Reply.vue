@@ -56,7 +56,7 @@ const moment = require("moment");
 require("moment/locale/fr.js");
 import axios from "axios";
 export default {
-  name: "Home",
+  name: "Reply",
   data() {
     return {
       moment: moment,
