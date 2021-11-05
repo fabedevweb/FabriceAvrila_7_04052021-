@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
-    <h1 class="header__posts">Réponds au post</h1>
     <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <p>
+      <h1 class="header__posts">Réponds à {{ post.pseudo }}</h1>
+      <p class="border-bottom">
         Posté par 😎 {{ post.pseudo }}
         {{ moment(post.createdPostAt).fromNow() }}
       </p>
@@ -17,7 +17,7 @@
         :key="index"
         v-for="(replyPost, index) in replyPosts"
       >
-        <p>
+        <p class="border-bottom">
           <button
             v-if="reply.replyUserNow == 'admin'"
             class="btn btn-danger"
@@ -54,7 +54,8 @@
 <script>
 const moment = require("moment");
 require("moment/locale/fr.js");
-import axios from "axios";
+//Import de la base url axios avec le token
+import axios from "../axios.js";
 export default {
   name: "Reply",
   data() {

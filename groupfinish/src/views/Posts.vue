@@ -76,8 +76,10 @@
 </template>
 
 <script>
+//Convertir format date pour les posts avec moment
 const moment = require("moment");
 require("moment/locale/fr.js");
+//Import de la base url axios avec le token
 import axios from "../axios.js";
 export default {
   name: "Posts",

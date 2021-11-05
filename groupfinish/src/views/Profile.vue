@@ -90,7 +90,7 @@
 const moment = require("moment");
 require("moment/locale/fr.js");
 //import { mapState } from "vuex";
-import axios from "axios";
+import axios from "../axios.js";
 export default {
   name: "Profile",
   data() {
@@ -102,7 +102,6 @@ export default {
       image: "",
       email: "",
       mode: "",
-      likes: "",
       pseudo: "",
       admins: [],
     };

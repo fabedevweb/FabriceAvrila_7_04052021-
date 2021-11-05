@@ -1,33 +1,6 @@
 import { createStore } from "vuex";
 import axios from "../axios.js";
 
-/*
-const axios = require("axios");
-
-const instance = axios.create({
-  baseURL: "http://localhost:3000/api/",
-});
-
-let user = localStorage.getItem("user");
-
-if (!user) {
-  user = {
-    userId: null,
-    token: "",
-  };
-} else {
-  try {
-    user = JSON.parse(user);
-    instance.defaults.headers.common["Authorization"] = user.token;
-  } catch (ex) {
-    user = {
-      userId: null,
-      token: "",
-    };
-  }
-}
-
-*/
 let user = localStorage.getItem("user");
 const store = createStore({
   state: {
@@ -45,7 +18,6 @@ const store = createStore({
     //Les mutations Vuex sont synchrones, il n'est pas possible de récupérer des données d'une API dans une mutation
     //Les mutations nous permettent de mettre à jour/modifier le state
     logUser: function(state, user) {
-      //instance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
