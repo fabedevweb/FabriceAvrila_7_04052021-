@@ -37,6 +37,7 @@ exports.createReply = (req, res, next) => {
     return res.send({ message: "Reply is successfully" });
   });
 };
+//Utilisé sur la route Reply
 exports.getReply = (req, res, next) => {
   const idPost = req.params.id;
   db.query(`SELECT * FROM reply WHERE idPost=${idPost}`, function(
@@ -66,6 +67,7 @@ exports.getAllThing = (req, res, next) => {
     res.end(JSON.stringify(results));
   });
 };
+//Utilisé sur la route UpdatePost
 exports.getOneThing = (req, res, next) => {
   db.query(
     `SELECT * FROM post WHERE id=${req.params.id} OR userId=${req.params.id}`,
