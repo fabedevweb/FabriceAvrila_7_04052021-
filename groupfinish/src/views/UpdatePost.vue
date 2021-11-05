@@ -24,8 +24,11 @@
           aria-label="Cliquez ici pour télécharger une image"
         />
       </div>
-      <button @click="updatePosts()" class="btn btn-primary">
+      <button @click="updatePosts()" class="btn btn-primary mb-2">
         <span>Poster mon commentaire</span>
+      </button>
+      <button @click="cancelUpdatePosts()" class="btn btn-success">
+        <span>ANNULER</span>
       </button>
     </div>
     <div>
@@ -95,6 +98,9 @@ export default {
         console.log(res, this.comment);
       });
       location.reload();
+    },
+    cancelUpdatePosts: function() {
+      this.$router.push("/profile");
     },
   },
 };
