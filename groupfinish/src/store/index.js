@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
+import axios from "../axios.js";
 
+/*
 const axios = require("axios");
 
 const instance = axios.create({
@@ -25,6 +27,8 @@ if (!user) {
   }
 }
 
+*/
+let user = localStorage.getItem("user");
 const store = createStore({
   state: {
     status: "",
@@ -40,13 +44,8 @@ const store = createStore({
     //METTRE LES NOMS DES MUTATIONS EN MAJUSCULES
     //Les mutations Vuex sont synchrones, il n'est pas possible de récupérer des données d'une API dans une mutation
     //Les mutations nous permettent de mettre à jour/modifier le state
-    /*
-    setStatus: function(state, status) {
-      state.status = status;
-    },
-    */
     logUser: function(state, user) {
-      instance.defaults.headers.common["Authorization"] = user.token;
+      //instance.defaults.headers.common["Authorization"] = user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
@@ -56,66 +55,47 @@ const store = createStore({
     userInfos: function(state, userInfos) {
       state.userInfos = userInfos;
     },
-    /*
-    logout: function() {
-      
-      state.user = {
-        userId: -1,
-        token: "",
-      };
-     
-      localStorage.clear();
-    },
-    */
   },
   actions: {
     login: ({ commit }, userInfos) => {
-      //commit("setStatus", "loading");
       return new Promise((resolve) => {
-        instance
+        axios
           .post("auth/login", userInfos)
           .then(function(response) {
-            //commit("setStatus", "");
             commit("logUser", response.data);
             resolve(response);
           })
           .catch(function(error) {
-            //commit("setStatus", "error_login");
             alert(error + "Email ou mot de passe incorrect");
             location.reload();
           });
       });
     },
     createAccount: ({ commit }, userInfos) => {
-      //commit("setStatus", "loading");
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         commit;
-        instance
+        axios
           .post("auth/signup", userInfos)
           .then(function(response) {
-            //commit("setStatus", "created");
             resolve(response);
           })
           .catch(function(error) {
-            //commit("setStatus", "error_create");
-            //reject(error);
+            reject;
             alert(error + "L'email est déjà utilisé");
             location.reload();
           });
       });
     },
     getPosts: ({ commit }) => {
-      //commit("setStatus", "loading");
       return new Promise((resolve) => {
         commit;
-        instance
+        axios
           .get("/")
           .then(function(response) {
-            commit("security", response.data);
             resolve(response);
           })
           .catch(function(error) {
-            console.log(error);
+            alert(error);
           });
       });
     },

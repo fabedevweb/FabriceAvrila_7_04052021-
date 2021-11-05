@@ -78,7 +78,7 @@
 <script>
 const moment = require("moment");
 require("moment/locale/fr.js");
-import axios from "axios";
+import axios from "../axios.js";
 export default {
   name: "Posts",
   data() {
@@ -104,12 +104,6 @@ export default {
       this.posts = res.data;
       console.log(this.posts);
     });
-    /*
-    axios.get("http://localhost:3000/api/").then((res) => {
-      this.posts = res.data;
-      console.log(this.posts);
-    });
-    */
   },
 
   methods: {
@@ -127,9 +121,11 @@ export default {
         return true;
       }
     },
+
     onFileChange: function(event) {
       this.selectFile = event.target.files[0];
     },
+
     createPosts: function() {
       const fd = new FormData();
       const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
@@ -140,9 +136,11 @@ export default {
       fd.append("comment", this.comment);
       fd.append("userId", userId);
       fd.append("pseudo", pseudo);
-      axios.post("http://localhost:3000/api/", fd).then((res) => {
+
+      axios.post("", fd).then((res) => {
         console.log(res, this.comment);
       });
+
       location.reload();
     },
     switchToReply: function(post) {
