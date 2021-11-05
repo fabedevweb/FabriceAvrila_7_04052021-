@@ -15,6 +15,6 @@ router.get("/reply/:id", thingCtrl.getReply);
 router.delete("/reply/:id", thingCtrl.deleteReply);
 router.get("/:id", thingCtrl.getOneThing);
 router.get("/", thingCtrl.getAllThing);
-router.put("/:id", multer, thingCtrl.modifyThing);
+router.put("/:id", multer, thingCtrl.updateThing);
 router.delete("/:id", thingCtrl.deleteThing);
 module.exports = router;

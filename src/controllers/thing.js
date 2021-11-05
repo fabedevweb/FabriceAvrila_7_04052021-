@@ -10,10 +10,8 @@ exports.createThing = (req, res, next) => {
   const imageUrl = `${req.protocol}://${req.get("host")}/images/${
     req.file.filename
   }`;
-  const likes = (req.body.likes = 0);
-  const dislikes = (req.body.dislikes = 0);
 
-  const sql = `INSERT post SET userId ='${userId}', pseudo ="${pseudo}",comment ="${comment}", imageUrl ='${imageUrl}', likes='${likes}', dislikes='${dislikes}'`;
+  const sql = `INSERT post SET userId ='${userId}', pseudo ="${pseudo}",comment ="${comment}", imageUrl ='${imageUrl}'`;
   if (!file) {
     return res.status(400).send({ message: "Please upload a file." });
   } else {
@@ -78,17 +76,14 @@ exports.getOneThing = (req, res, next) => {
     }
   );
 };
-exports.modifyThing = (req, res, next) => {
-  const file = req.file;
+exports.updateThing = (req, res, next) => {
   const comment = req.body.comment;
   const imageUrl = `${req.protocol}://${req.get("host")}/images/${
     req.file.filename
   }`;
-  const likes = req.body.likes;
-  const dislikes = req.body.dislikes;
-  const id = req.params.id;
-  //var sql = `UPDATE post SET comment ='${comment}', imageUrl ='${imageUrl}', WHERE id = '${id}'`;
-  var sql = `UPDATE post SET WHERE id = ${id}`;
+
+  var sql = `UPDATE post SET comment ='${comment}', imageUrl ='${imageUrl}' WHERE id = ${req.params.id}`;
+  //var sql = `UPDATE post SET WHERE id = ${id}`;
   db.query(sql, function(error, results, fields) {
     if (error) throw error;
     return res.send({ message: "Le fichier a été modifié" });

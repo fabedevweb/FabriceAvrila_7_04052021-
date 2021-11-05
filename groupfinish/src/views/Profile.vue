@@ -33,6 +33,13 @@
       >
         <button
           type="button"
+          class="btn btn-primary mb-5"
+          @click="updatePosts(post)"
+        >
+          Modifier mon post
+        </button>
+        <button
+          type="button"
           class="btn btn-danger mb-5"
           @click="deletePosts(post)"
         >
@@ -127,7 +134,7 @@ export default {
       //Voir uniquement les posts correspondant au userId
       axios.get(`http://localhost:3000/api/${userId}`).then((res) => {
         this.posts = res.data;
-        console.log(this.pseudo);
+        console.log(this.posts);
       });
     }
   },
@@ -163,14 +170,24 @@ export default {
       this.selectFile = event.target.files[0];
     },
     deletePosts: function(post) {
-      axios.delete(`http://localhost:3000/api/${post.id}`).then((res) => {
-        console.log(res, this.pseudo);
-      });
-      location.reload();
-      console.log("delete" + post.id);
+      if (confirm("Voulez-vous vraiment supprimer votre post ?")) {
+        axios.delete(`http://localhost:3000/api/${post.id}`).then((res) => {
+          console.log(res, this.pseudo);
+        });
+        location.reload();
+        console.log("delete" + post.id);
+      } else {
+        this.$router.push("/profile");
+      }
     },
+
     test: function(post) {
       console.log(post);
+    },
+    updatePosts: function(post) {
+      localStorage.setItem("idPostUpdate", JSON.stringify(post.id));
+      console.log(post.id);
+      this.$router.push("/updatePost");
     },
     //deleteAccountSecrurity: function() {},
     deleteAccount: function() {
