@@ -114,22 +114,26 @@ export default {
     };
   },
   mounted: function() {
-    const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
-    const userIdValue = Object.values(userIdLocaStorage);
-    const userId = userIdValue[2].id;
-    const pseudo = userIdValue[2].pseudo;
-    this.pseudo = pseudo;
-    if (this.pseudo == "admin") {
-      // ADMIN ==> Voir tous les posts si c'est l'admin qui est connecté
-      axios.get(`http://localhost:3000/api`).then((res) => {
-        this.admins = res.data;
-      });
+    if (localStorage.getItem("user")) {
+      const userIdLocaStorage = JSON.parse(localStorage.getItem("user"));
+      const userIdValue = Object.values(userIdLocaStorage);
+      const userId = userIdValue[2].id;
+      const pseudo = userIdValue[2].pseudo;
+      this.pseudo = pseudo;
+      if (this.pseudo == "admin") {
+        // ADMIN ==> Voir tous les posts si c'est l'admin qui est connecté
+        axios.get(`http://localhost:3000/api`).then((res) => {
+          this.admins = res.data;
+        });
+      } else {
+        //Voir uniquement les posts correspondant au userId
+        axios.get(`http://localhost:3000/api/${userId}`).then((res) => {
+          this.posts = res.data;
+          console.log(this.posts);
+        });
+      }
     } else {
-      //Voir uniquement les posts correspondant au userId
-      axios.get(`http://localhost:3000/api/${userId}`).then((res) => {
-        this.posts = res.data;
-        console.log(this.posts);
-      });
+      this.$router.push("/");
     }
   },
   /*
