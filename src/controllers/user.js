@@ -9,20 +9,34 @@ exports.signup = (req, res, next) => {
     `SELECT * FROM utilisateur WHERE LOWER(email) = LOWER(${db.escape(
       req.body.email
     )});`,
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-      {
-        db.query(
-          `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
-            req.body.pseudo
-          }','${req.body.email}',${db.escape(hash)})`,
-          () => {
-            return res.status(401).send({
-              msg: "The user has been registerd with us!",
+    (err) => {
+      if (!req.body.email) {
+        return res.status(409).send({
+          msg: "This user is already in use!",
+        });
+      } else {
+        // username is available
+        bcrypt.hash(req.body.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).send({
+              msg: err,
             });
+          } else {
+            // has hashed pw => add to database
+            db.query(
+              `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
+                req.body.pseudo
+              }','${req.body.email}',${db.escape(hash)})`,
+              () => {
+                return res.status(201).send({
+                  msg: "The user has been registerd with us!",
+                });
+              }
+            );
           }
-        );
+        });
       }
-    })
+    }
   );
 };
 
