@@ -50,8 +50,8 @@ const store = createStore({
           .then(function(response) {
             resolve(response);
           })
-          .catch(function(error) {
-            alert(error + "L'email est déjà utilisé");
+          .catch(function() {
+            alert("Email ou Pseudo déjà utilisé");
             location.reload();
           });
       });

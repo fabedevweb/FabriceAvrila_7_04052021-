@@ -30,6 +30,15 @@ exports.login = (req, res, next) => {
   db.query(
     `SELECT * FROM utilisateur WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
+      // user does not exists
+      if (err) {
+        throw err;
+      }
+      if (!result.length) {
+        return res.status(401).send({
+          msg: "Username or password is incorrect!",
+        });
+      }
       // check password
       bcrypt.compare(
         req.body.password,
@@ -37,7 +46,7 @@ exports.login = (req, res, next) => {
         (bErr, bResult) => {
           // wrong password
           if (bErr) {
-            alert(bErr + "Incorrect password");
+            throw bErr;
           }
           if (bResult) {
             const token = jwt.sign(
