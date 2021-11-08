@@ -9,15 +9,15 @@
     <h1 class="card__title" v-else>Inscription</h1>
     <div class="card mt-5 mx-auto">
       <button
-        class="card__subtitle btn btn-outline-dark col-9 mx-auto"
-        @click="switchToCreateAccount()"
+        class="card__subtitle btn btn-outline-dark col-9 mx-auto border-0"
+        @click="showCreateAccount()"
         v-if="mode == 'login'"
       >
-        J'aimerais avoir un compte
+        J'aimerais créer un compte
       </button>
       <button
-        class="card__subtitle btn btn-outline-dark col-9 mx-auto"
-        @click="switchToLogin()"
+        class="card__subtitle btn btn-outline-dark col-9 mx-auto border-0"
+        @click="showLogin()"
         v-else
       >
         J'ai déjà un compte
@@ -32,6 +32,9 @@
           aria-label="Veuillez renseigner votre adresse mail"
         />
       </div>
+      <p v-if="emailForm == 'emailCreate'">
+        Veuillez renseigner votre adresse mail
+      </p>
       <div class="form-row" v-if="mode == 'create'">
         <input
           v-model="pseudo"
@@ -41,6 +44,9 @@
           aria-label="Veuillez renseigner votre pseudo"
         />
       </div>
+      <p v-if="pseudoForm == 'pseudoCreate'">
+        Veuillez renseigner votre pseudo
+      </p>
       <div class="form-row">
         <input
           v-model="password"
@@ -50,12 +56,14 @@
           aria-label="Veuillez renseigner votre mot de passe"
         />
       </div>
+      <p v-if="passwordForm == 'passwordCreate'">
+        Veuillez renseigner votre mot de passe
+      </p>
       <div class="form-row d-grid gap-2 col-9 mx-auto">
         <button
           @click="login()"
           class="btn btn-success"
           type="button"
-          :class="{ 'button--disabled': !validatedFields }"
           v-if="mode == 'login'"
           aria-label="Cliquez ici pour vous connecter"
         >
@@ -65,7 +73,6 @@
         <button
           @click="createAccount()"
           class="btn btn-success"
-          :class="{ 'button--disabled': !validatedFields }"
           aria-label="Cliquez ici pour vous inscrire"
           v-else
         >
@@ -88,6 +95,9 @@ export default {
       email: null,
       pseudo: null,
       password: null,
+      pseudoForm: "",
+      emailForm: "",
+      passwordForm: "",
     };
   },
   mounted: function() {
@@ -115,10 +125,10 @@ export default {
     ...mapState(["status"]),
   },
   methods: {
-    switchToCreateAccount: function() {
+    showCreateAccount: function() {
       this.mode = "create";
     },
-    switchToLogin: function() {
+    showLogin: function() {
       this.mode = "login";
     },
     login: function() {
@@ -140,12 +150,15 @@ export default {
     createAccount: function() {
       const self = this;
       if (!this.pseudo) {
+        this.pseudoForm = "pseudoCreate";
         console.log("renseigner le pseudo");
       }
       if (!this.email) {
+        this.emailForm = "emailCreate";
         console.log("renseigner l'email");
       }
       if (!this.password) {
+        this.passwordForm = "passwordCreate";
         console.log("renseigner le password");
       } else if (!this.validEmail(this.email)) {
         console.log("format email non accepté");
@@ -197,6 +210,7 @@ h1 {
   min-width: 350px;
   margin-bottom: 100%;
 }
+
 .form-row {
   display: flex;
   margin: 16px 0px;
@@ -206,17 +220,11 @@ h1 {
 
 .form-row__input {
   padding: 8px;
-  border: none;
   border-radius: 8px;
-  background: #f2f2f2;
   font-weight: 500;
   font-size: 16px;
   flex: 1;
   min-width: 100px;
   color: black;
 }
-
-.form-row__input::placeholder {
-  color: #aaaaaa;
-}</style
->>
+</style>

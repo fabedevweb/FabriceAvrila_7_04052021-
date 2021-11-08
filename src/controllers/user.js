@@ -9,37 +9,20 @@ exports.signup = (req, res, next) => {
     `SELECT * FROM utilisateur WHERE LOWER(email) = LOWER(${db.escape(
       req.body.email
     )});`,
-    (err) => {
-      if (!req.body.email) {
-        return res.status(409).send({
-          msg: "This user is already in use!",
-        });
-      } else {
-        // username is available
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-          if (err) {
-            return res.status(500).send({
-              msg: err,
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+      {
+        db.query(
+          `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
+            req.body.pseudo
+          }','${req.body.email}',${db.escape(hash)})`,
+          () => {
+            return res.status(401).send({
+              msg: "The user has been registerd with us!",
             });
-          } else {
-            // has hashed pw => add to database
-            db.query(
-              `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
-                req.body.pseudo
-              }','${req.body.email}',${db.escape(hash)})`,
-              (err) => {
-                if (err) {
-                  throw err;
-                }
-                return res.status(201).send({
-                  msg: "The user has been registerd with us!",
-                });
-              }
-            );
           }
-        });
+        );
       }
-    }
+    })
   );
 };
 
@@ -47,15 +30,6 @@ exports.login = (req, res, next) => {
   db.query(
     `SELECT * FROM utilisateur WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
-      // user does not exists
-      if (err) {
-        throw err;
-      }
-      if (!result.length) {
-        return res.status(401).send({
-          msg: "Username or password is incorrect!",
-        });
-      }
       // check password
       bcrypt.compare(
         req.body.password,
@@ -63,7 +37,7 @@ exports.login = (req, res, next) => {
         (bErr, bResult) => {
           // wrong password
           if (bErr) {
-            throw bErr;
+            alert(bErr + "Incorrect password");
           }
           if (bResult) {
             const token = jwt.sign(

@@ -9,9 +9,13 @@ const dbConn = mysql.createConnection({
   database: "groupomania",
 });
 
-dbConn.connect(function(error) {
-  if (error) throw error;
+dbConn.connect(function() {
   console.log("Database Connected Successfully!!!");
 });
 
+/*
+  if (Error === "ER_DUP_ENTRY") {
+    console.log(Error + "Email or username already in use");
+    dbConn;
+  }*/
 module.exports = dbConn;
