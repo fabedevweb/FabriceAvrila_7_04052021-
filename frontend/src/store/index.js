@@ -36,8 +36,8 @@ const store = createStore({
             commit("LOGUSER", response.data);
             resolve(response);
           })
-          .catch(function(error) {
-            alert(error + "Email ou mot de passe incorrect");
+          .catch(function() {
+            alert("Email ou mot de passe incorrect");
             location.reload();
           });
       });
