@@ -10,7 +10,7 @@ exports.signup = (req, res, next) => {
       req.body.email
     )});`,
     (err) => {
-      if (req.body.email) {
+      if (!req.body.email) {
         return res.status(409).send({
           msg: "This user is already in use!",
         });

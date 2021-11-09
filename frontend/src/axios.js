@@ -12,7 +12,7 @@ if (!user) {
   try {
     user = JSON.parse(user);
     axios.defaults.headers.common = { Authorization: `bearer ${user.token}` };
-  } catch (ex) {
+  } catch (err) {
     user = {
       userId: null,
       token: "",
