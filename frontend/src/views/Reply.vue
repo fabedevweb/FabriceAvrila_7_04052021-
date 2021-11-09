@@ -18,6 +18,7 @@
         v-for="(replyPost, index) in replyPosts"
       >
         <p class="border-bottom">
+          <!-- ADMIN -->
           <button
             v-if="reply.replyUserNow == 'admin'"
             class="btn btn-danger"
