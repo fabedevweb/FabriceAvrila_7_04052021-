@@ -10,7 +10,7 @@ exports.signup = (req, res, next) => {
       req.body.email
     )});`,
     (err) => {
-      if (!req.body.email) {
+      if (req.body.email) {
         return res.status(409).send({
           msg: "This user is already in use!",
         });
@@ -66,7 +66,7 @@ exports.login = (req, res, next) => {
             const token = jwt.sign(
               {
                 email: result[0].email,
-                password: result[0].id,
+                id: result[0].id,
               },
               "SECRETKEY",
               {
