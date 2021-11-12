@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import axios from "../axios.js";
 
 let user = localStorage.getItem("user");
+
 const store = createStore({
   state: {
     status: "",

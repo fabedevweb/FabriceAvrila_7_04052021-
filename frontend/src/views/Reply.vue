@@ -95,6 +95,7 @@ export default {
       .then((res) => {
         this.posts = res.data;
         localStorage.setItem("replyRoute", JSON.stringify(this.posts));
+        console.log(this.posts);
       });
 
     //Réccupération des infos du localstorage pour afficher sur la page les infos suivantes
@@ -104,7 +105,7 @@ export default {
     this.reply.userId = idLicalStorage2[0].userId;
     this.reply.pseudo = idLicalStorage2[0].pseudo;
     this.reply.comment = idLicalStorage2[0].comment;
-
+    console.log(this.reply.userId);
     //Récupération des des infos du localstorage pour afficher le reply de la personne connectée
     const idLicalStorage3 = JSON.parse(localStorage.getItem("user"));
     this.reply.replyUserNow = idLicalStorage3.user.pseudo;
@@ -114,7 +115,7 @@ export default {
       .get(`http://localhost:3000/api/reply/${idLicalStorage}`)
       .then((res) => {
         this.replyPosts = res.data;
-        //console.log(this.replyPosts);
+        console.log(this.replyPosts);
       });
   },
   methods: {

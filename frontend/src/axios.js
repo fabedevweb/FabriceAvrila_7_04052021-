@@ -19,4 +19,5 @@ if (!user) {
     };
   }
 }
+
 export default axios;
