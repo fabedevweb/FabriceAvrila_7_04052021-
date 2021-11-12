@@ -102,14 +102,14 @@ export default {
     const idLicalStorage2 = JSON.parse(localStorage.getItem("replyRoute"));
     this.reply.id = idLicalStorage2[0].id;
     this.reply.imageUrl = idLicalStorage2[0].imageUrl;
-    this.reply.userId = idLicalStorage2[0].userId;
     this.reply.pseudo = idLicalStorage2[0].pseudo;
     this.reply.comment = idLicalStorage2[0].comment;
     console.log(this.reply.userId);
     //Récupération des des infos du localstorage pour afficher le reply de la personne connectée
     const idLicalStorage3 = JSON.parse(localStorage.getItem("user"));
     this.reply.replyUserNow = idLicalStorage3.user.pseudo;
-    //console.log(this.reply.replyUserNow);
+    this.reply.userId = idLicalStorage3.user.id;
+    console.log(this.reply.userId);
     //Voir tous les reply correspondant au id du post affiché
     axios
       .get(`http://localhost:3000/api/reply/${idLicalStorage}`)
@@ -139,7 +139,7 @@ export default {
         .then((res) => {
           console.log(res, "Commentaire envoyé");
         });
-      location.reload();
+      //location.reload();
     },
     switchToReply: function() {
       this.mode = "createReply";
