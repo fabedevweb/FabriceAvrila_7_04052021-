@@ -85,7 +85,6 @@ exports.updateThing = (req, res, next) => {
   }`;
 
   var sql = `UPDATE post SET comment ='${comment}', imageUrl ='${imageUrl}' WHERE id = ${req.params.id}`;
-  //var sql = `UPDATE post SET WHERE id = ${id}`;
   db.query(sql, function(error, results, fields) {
     if (error) throw error;
     return res.send({ message: "Le fichier a été modifié" });

@@ -139,7 +139,7 @@ export default {
         .then((res) => {
           console.log(res, "Commentaire envoyé");
         });
-      //location.reload();
+      location.reload();
     },
     switchToReply: function() {
       this.mode = "createReply";

@@ -23,20 +23,3 @@ module.exports = (req, res, next) => {
     });
   }
 };
-
-/*
-function authentication(req, res, next) {
-    const header = req.headers["Authorization"];
-    const token = header && header.split("")[1];
-    if (!token) {
-      return res.sendstatus(401);
-    }
-    jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, user) => {
-      if (err) {
-        return res.sendstatus(401);
-      }
-      req.user = user;
-      next();
-    });
-  }
-  */

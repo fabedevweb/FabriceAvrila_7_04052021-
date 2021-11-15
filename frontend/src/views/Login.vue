@@ -35,6 +35,9 @@
       <p v-if="emailForm == 'emailCreate'">
         Veuillez renseigner votre adresse mail
       </p>
+      <p v-if="emailRegex == 'emailRegexVerify'">
+        Format email non accepté
+      </p>
       <div class="form-row" v-if="mode == 'create'">
         <input
           v-model="pseudo"
@@ -98,6 +101,7 @@ export default {
       pseudoForm: "",
       emailForm: "",
       passwordForm: "",
+      emailRegex: "",
     };
   },
   mounted: function() {
@@ -151,17 +155,14 @@ export default {
       const self = this;
       if (!this.pseudo) {
         this.pseudoForm = "pseudoCreate";
-        console.log("renseigner le pseudo");
       }
       if (!this.email) {
         this.emailForm = "emailCreate";
-        console.log("renseigner l'email");
       }
       if (!this.password) {
         this.passwordForm = "passwordCreate";
-        console.log("renseigner le password");
       } else if (!this.validEmail(this.email)) {
-        console.log("format email non accepté");
+        this.emailRegex = "emailRegexVerify";
       }
       if (
         this.pseudo &&
