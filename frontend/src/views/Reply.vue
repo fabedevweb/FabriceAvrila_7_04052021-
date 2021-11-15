@@ -27,10 +27,11 @@
             delete
           </button>
           Posté par
-          <span>
+          <span class="card--replyPost__pseudocomment">
             {{ replyPost.pseudo }}
-            {{ moment(replyPost.createdPostAt).fromNow() }} : </span
-          >{{ replyPost.comment }}
+          </span>
+          {{ moment(replyPost.createdPostAt).fromNow() }} :
+          {{ replyPost.comment }}
         </p>
       </div>
     </div>
@@ -191,5 +192,9 @@ export default {
 }
 p {
   margin: 0px;
+}
+.card--replyPost__pseudocomment {
+  font-style: italic;
+  color: brown;
 }
 </style>

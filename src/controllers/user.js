@@ -22,7 +22,6 @@ exports.signup = (req, res, next) => {
               msg: err,
             });
           } else {
-            // has hashed pw => add to database
             db.query(
               `INSERT INTO utilisateur (pseudo, email, password) VALUES ('${
                 req.body.pseudo
