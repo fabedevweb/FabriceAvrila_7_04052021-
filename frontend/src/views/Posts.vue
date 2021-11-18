@@ -8,17 +8,12 @@
     <div role="main" aria-labelledby="foo">
       <h1 class="header__posts" id="foo">
         Bienvenue
-        <span class="text-uppercase text-primary fw-bold">{{
+        <span class="text-uppercase hello--pseudo fw-bold">{{
           pseudoPost()
         }}</span>
       </h1>
 
-      <div
-        class="card mt-5 mx-auto border-0"
-        role="group"
-        aria-labelledby="formulaire pour poster un commentaire"
-        v-if="formPost()"
-      >
+      <div class="card mt-5 mx-auto border-0" role="group" v-if="formPost()">
         <div class="form-row ">
           <input
             v-model="comment"
@@ -68,7 +63,7 @@
           type="button"
           @click="switchToReply(post)"
         >
-          <i class="far fa-comment-alt"></i>
+          <i class="far fa-comment-alt"></i>Répondre
         </button>
       </div>
     </div>
@@ -191,5 +186,8 @@ h1 {
 }
 .button--reply {
   margin-top: 20px;
+}
+.hello--pseudo {
+  color: #023583;
 }
 </style>

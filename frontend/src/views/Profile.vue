@@ -96,7 +96,6 @@
 <script>
 const moment = require("moment");
 require("moment/locale/fr.js");
-//import { mapState } from "vuex";
 import axios from "../axios.js";
 export default {
   name: "Profile",
@@ -136,13 +135,7 @@ export default {
       this.$router.push("/");
     }
   },
-  /*
-  computed: {
-    ...mapState({
-      user: "userInfos",
-    }),
-  },
-*/
+
   methods: {
     pseudoAdmin: function() {
       if (this.pseudo !== "admin") {

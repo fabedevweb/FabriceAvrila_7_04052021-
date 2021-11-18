@@ -4,6 +4,7 @@
       <div class="container-fluid">
         <router-link
           to="/"
+          @click="clearPostLocalStorage() && reload()"
           aria-label="Cliquez sur ce logo pour aller à l'accueil"
         >
           <img
@@ -16,7 +17,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <router-link
               to="/"
-              @click="clearPostLocalStorage()"
+              @click="clearPostLocalStorage() && reload()"
               aria-label="Cliquez pour aller à l'accueil"
             >
               <li class="nav-item">
@@ -59,7 +60,9 @@ export default {
         return true;
       }
     },
-    //Résolution d'un problème : lors d'un reply, il le faisait sur l'ancien idPost gardé dans le localstorage
+    reload: function() {
+      location.reload();
+    },
     clearPostLocalStorage: function() {
       localStorage.removeItem("replyRoute");
     },
