@@ -5,7 +5,7 @@ const dbConn = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "groupomania",
+  database: "dataFabe",
 });
 
 dbConn.connect(function(error) {
