@@ -12,59 +12,60 @@
           pseudoPost()
         }}</span>
       </h1>
-
-      <div class="card mt-5 mx-auto border-0" role="group" v-if="formPost()">
-        <div class="form-row ">
-          <input
-            v-model="comment"
-            class="form-row__input form-row__input--comment border-0"
-            type="text"
-            placeholder="Rédigez un commentaire"
-            aria-label="Écrivez ici votre commentaire"
-          />
+      <div class="container">
+        <div class="row">
+          <div
+            class="formcomment border-0 rounded-0"
+            role="group"
+            v-if="formPost()"
+          >
+            <div class="d-flex flex-row">
+              <input
+                v-model="comment"
+                class="form-row__input form-row__input--comment border-0"
+                type="text"
+                placeholder="Create a post"
+                aria-label="Écrivez ici votre commentaire"
+              />
+              <div class="file btn btn-lg btn-primary rounded-0">
+                <i class="fas fa-upload"></i>
+                <input class="inputupload" type="file" name="file" />
+              </div>
+              <button @click="createPosts()" class="btn btn-primary rounded-0">
+                <i class="fas fa-share-square "></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="card card-img mt-3 mx-auto active rounded-0 col"
+            :key="index"
+            v-for="(post, index) in posts"
+            aria-label="post"
+          >
+            <h2>
+              Posté par {{ post.pseudo }}
+              {{ moment(post.createdPostAt).fromNow() }}
+            </h2>
+            <div class="card-body rounded-0">
+              <p class="card-text fs-6">
+                {{ post.comment }}
+              </p>
+            </div>
+            <img
+              :src="post.imageUrl"
+              class="container__img rounded"
+              alt="Image du post"
+            />
+            <button
+              v-if!="formPost()"
+              class="btn button--reply"
+              type="button"
+              @click="switchToReply(post)"
+            >
+              <i class="far fa-comment-alt"></i>
+            </button>
+          </div>
         </div>
-        <div class="mb-3 border-0">
-          <!--<label for="formFile" class="form-label"></label>-->
-          <input
-            @change="onFileChange"
-            class="form-control border-0"
-            type="file"
-            id="formFile"
-            aria-label="Cliquez ici pour télécharger une image"
-          />
-        </div>
-        <button @click="createPosts()" class="btn btn-primary">
-          <span>Poster mon commentaire</span>
-        </button>
-      </div>
-      <div
-        class="card mt-3 mx-auto active"
-        :key="index"
-        v-for="(post, index) in posts"
-        aria-label="post"
-      >
-        <h2 class="fs-5">
-          Posté par 😎 {{ post.pseudo }}
-          {{ moment(post.createdPostAt).fromNow() }}
-        </h2>
-        <div class="card-body">
-          <h3 class="card-text fs-6">
-            {{ post.comment }}
-          </h3>
-        </div>
-        <img
-          :src="post.imageUrl"
-          class="container__img rounded"
-          alt="Image du post"
-        />
-        <button
-          v-if!="formPost()"
-          class="btn btn-primary button--reply"
-          type="button"
-          @click="switchToReply(post)"
-        >
-          <i class="far fa-comment-alt"></i>Répondre
-        </button>
       </div>
     </div>
   </div>
@@ -150,27 +151,54 @@ export default {
 </script>
 
 <style scoped>
+.formcomment {
+  padding: 0;
+}
+
 .hello--img__icon {
   position: relative;
   width: 50%;
   margin-left: 25%;
   margin-top: 100px;
 }
+div {
+  position: relative;
+  overflow: hidden;
+}
+.inputupload {
+  position: absolute;
+  font-size: 50px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
 h1 {
   padding-top: 100px;
   text-align: center;
 }
+h2 {
+  padding: 5px 0px 0px 5px;
+  font-size: 13px;
+}
+p {
+  padding: 0px 0px 0px 5px;
+}
 .hello {
   background-color: #ccc;
+  min-height: 250vh;
 }
 .card {
-  max-width: 60%;
-  min-width: 350px;
-  padding: 9px;
+  max-width: 47%;
+  /*min-width: 350px;*/
+}
+.card-img {
+  padding: 0;
 }
 .form-row__input--comment {
   width: 100%;
-  height: 200px;
+  height: 50px;
+  padding: 5px;
 }
 .header__posts {
   text-align: center;
@@ -185,7 +213,7 @@ h1 {
   padding: 0px;
 }
 .button--reply {
-  margin-top: 20px;
+  width: 42px;
 }
 .hello--pseudo {
   color: #023583;
