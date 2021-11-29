@@ -14,7 +14,7 @@
       </h1>
 
       <div class="card mt-5 mx-auto border-0" role="group" v-if="formPost()">
-        <div class="form-row ">
+        <div class="form-row input-comment d-flex flex-row">
           <input
             v-model="comment"
             class="form-row__input form-row__input--comment border-0"
@@ -22,49 +22,58 @@
             placeholder="Rédigez un commentaire"
             aria-label="Écrivez ici votre commentaire"
           />
-        </div>
-        <div class="mb-3 border-0">
-          <!--<label for="formFile" class="form-label"></label>-->
           <input
             @change="onFileChange"
-            class="form-control border-0"
+            class="form-control border-0 rounded-0"
             type="file"
             id="formFile"
             aria-label="Cliquez ici pour télécharger une image"
           />
+          <button
+            @click="createPosts()"
+            class="btn btn-primary rounded-0 btn-share"
+          >
+            <i class="fas fa-share-square "></i>
+          </button>
         </div>
-        <button @click="createPosts()" class="btn btn-primary">
-          <span>Poster mon commentaire</span>
-        </button>
-      </div>
-      <div
-        class="card mt-3 mx-auto active"
-        :key="index"
-        v-for="(post, index) in posts"
-        aria-label="post"
-      >
-        <h2 class="fs-5">
-          Posté par 😎 {{ post.pseudo }}
-          {{ moment(post.createdPostAt).fromNow() }}
-        </h2>
-        <div class="card-body">
-          <h3 class="card-text fs-6">
-            {{ post.comment }}
-          </h3>
+
+        <div class="container card-container">
+          <div class="row row-cols-2 card-container-row">
+            <div
+              class="card mt-3 mx-auto active border-0 "
+              :key="index"
+              v-for="(post, index) in posts"
+              aria-label="post"
+            >
+              <div class="card-container-row-header-custom">
+                <h2 class="fs-6 card-container-row-header ">
+                  Posté par
+                  <span class="heading-card-pseudo">{{ post.pseudo }}</span>
+                  {{ moment(post.createdPostAt).fromNow() }}
+                </h2>
+                <div class="card-body">
+                  <p class="card-text fs-6">
+                    {{ post.comment }}
+                  </p>
+                </div>
+              </div>
+
+              <img
+                :src="post.imageUrl"
+                class="container__img rounded-0"
+                alt="Image du post"
+              />
+              <button
+                v-if!="formPost()"
+                class="btn btn-light button--reply rounded-0"
+                type="button"
+                @click="switchToReply(post)"
+              >
+                <i class="far fa-comment-alt "></i>
+              </button>
+            </div>
+          </div>
         </div>
-        <img
-          :src="post.imageUrl"
-          class="container__img rounded"
-          alt="Image du post"
-        />
-        <button
-          v-if!="formPost()"
-          class="btn btn-primary button--reply"
-          type="button"
-          @click="switchToReply(post)"
-        >
-          <i class="far fa-comment-alt"></i>Répondre
-        </button>
       </div>
     </div>
   </div>
@@ -160,6 +169,7 @@ h1 {
   padding-top: 100px;
   text-align: center;
 }
+
 .hello {
   background-color: #ccc;
 }
@@ -167,15 +177,32 @@ h1 {
   max-width: 60%;
   min-width: 350px;
   padding: 9px;
+  background-color: transparent;
+}
+.btn-share {
+  padding: 5px;
+}
+.input-comment {
+  padding: 9px;
 }
 .form-row__input--comment {
   width: 100%;
-  height: 200px;
+  height: 36px;
+  padding: 5px;
 }
 .header__posts {
   text-align: center;
   padding-top: 42px;
 }
+.heading-card-pseudo {
+  font-style: italic;
+  color: #023583;
+}
+.card-container-row-header-custom {
+  background-color: white;
+  padding: 5px;
+}
+
 .card-body-reply {
   margin-top: 10px;
   padding: 1rem;
@@ -184,9 +211,7 @@ h1 {
 .card-body {
   padding: 0px;
 }
-.button--reply {
-  margin-top: 20px;
-}
+
 .hello--pseudo {
   color: #023583;
 }
