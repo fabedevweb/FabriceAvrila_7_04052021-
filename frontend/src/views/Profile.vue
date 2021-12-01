@@ -7,9 +7,12 @@
         class="hello--img__icon"
       />
     </div>
-    <div class="card mx-auto mt-5 border-0 card-profile" v-if="formPost()">
+    <div
+      class="card mx-auto mt-5 border-1 rounded-0 w-25 card-profile"
+      v-if="formPost()"
+    >
       <h1 class="card__title" @click="userLocalStorage()">
-        Salut 😏 <span class="text-uppercase text-primary">{{ pseudo }}</span>
+        Profil de <span class="text-uppercase text-primary">{{ pseudo }}</span>
       </h1>
       <div class="form-row text-center">
         <button @click="logout()" class="btn btn-primary btn-lg">
@@ -212,9 +215,7 @@ export default {
   margin-left: 25%;
   margin-top: 100px;
 }
-.card-profile {
-  padding-top: 100px;
-}
+
 .profile {
   background-color: #ccc;
 }

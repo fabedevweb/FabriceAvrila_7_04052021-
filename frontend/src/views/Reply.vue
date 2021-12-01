@@ -1,8 +1,12 @@
 <template>
   <div class="hello">
-    <div class="card mt-3 mx-auto" :key="index" v-for="(post, index) in posts">
-      <h1 class="header__posts">Réponds à {{ post.pseudo }}</h1>
-      <p class="border-bottom">
+    <div
+      class="card mt-3 mx-auto border-0 rounded-0"
+      :key="index"
+      v-for="(post, index) in posts"
+    >
+      <!--<h1 class="header__posts">Réponds à {{ post.pseudo }}</h1>-->
+      <p class="border-bottom p-1">
         Posté par 😎 {{ post.pseudo }}
         {{ moment(post.createdPostAt).fromNow() }}
       </p>
@@ -35,18 +39,22 @@
         </p>
       </div>
     </div>
-    <div class="reply mx-auto">
+    <div class="reply mx-auto d-flex align-items-center">
       <input
         v-model="comment"
         type="text"
-        class="form-control mt-2 form-row__input--comment"
+        class="form-control form-row__input--comment rounded-0 border-0"
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-default"
         placeholder="commenter"
       />
-      <div class="d-grid gap-2">
-        <button class="btn btn-primary " type="button" @click="createPosts()">
-          Poster mon commentaire
+      <div>
+        <button
+          class="btn btn-primary rounded-0 btn-reply"
+          type="button"
+          @click="createPosts()"
+        >
+          <i class="fas fa-retweet"></i>
         </button>
       </div>
     </div>
@@ -164,20 +172,26 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .reply {
-  max-width: 60%;
+  max-width: 30%;
   min-width: 350px;
+  margin-top: 20px;
+}
+.btn-reply {
+  height: 45px;
 }
 .hello {
   background-color: #ccc;
+  padding-top: 100px;
 }
 .card {
-  max-width: 60%;
+  max-width: 30%;
   min-width: 350px;
-  padding: 9px;
+  padding: 0px;
 }
 .form-row__input--comment {
   width: 100%;
-  height: 200px;
+  height: 45px;
+  margin: 0px;
 }
 .header__posts {
   text-align: center;

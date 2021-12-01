@@ -1,10 +1,12 @@
 <template>
   <div class="hello">
-    <img
-      src="../assets/icon-left-font-monochrome-black.png"
-      alt="logo avec typographie Groupomania"
-      class="hello--img__icon"
-    />
+    <div class="hello-img">
+      <img
+        src="../assets/icon-left-font-monochrome-black.png"
+        alt="logo avec typographie Groupomania"
+        class="hello--img__icon"
+      />
+    </div>
     <div role="main" aria-labelledby="foo">
       <h1 class="header__posts" id="foo">
         Bienvenue
@@ -14,7 +16,7 @@
       </h1>
 
       <div class="card mt-5 mx-auto border-0" role="group" v-if="formPost()">
-        <div class="form-row input-comment d-flex flex-row">
+        <div class="form-row input-comment d-flex col-6">
           <input
             v-model="comment"
             class="form-row__input form-row__input--comment border-0"
@@ -22,6 +24,9 @@
             placeholder="Rédigez un commentaire"
             aria-label="Écrivez ici votre commentaire"
           />
+          <label for="formFile" class="bg-primary btn-share"
+            ><i class="fas fa-download text-light"></i
+          ></label>
           <input
             @change="onFileChange"
             class="form-control border-0 rounded-0"
@@ -38,7 +43,7 @@
         </div>
 
         <div class="container card-container">
-          <div class="row row-cols-2 card-container-row">
+          <div class="row row-col-2 card-container-row">
             <div
               class="card mt-3 mx-auto active border-0 "
               :key="index"
@@ -159,12 +164,17 @@ export default {
 </script>
 
 <style scoped>
+.hello-img {
+  padding-top: 100px;
+  margin: auto;
+  text-align: center;
+}
+
 .hello--img__icon {
   position: relative;
-  width: 50%;
-  margin-left: 25%;
-  margin-top: 100px;
+  width: 20%;
 }
+
 h1 {
   padding-top: 100px;
   text-align: center;
@@ -173,8 +183,18 @@ h1 {
 .hello {
   background-color: #ccc;
 }
+label {
+  cursor: pointer;
+  /* Style as you please, it will become the visible UI component. */
+}
+
+#formFile {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
 .card {
-  max-width: 60%;
+  max-width: 55%;
   min-width: 350px;
   padding: 9px;
   background-color: transparent;
@@ -182,8 +202,12 @@ h1 {
 .btn-share {
   padding: 5px;
 }
+
 .input-comment {
   padding: 9px;
+  min-width: 349px;
+  margin: auto;
+  width: 55%;
 }
 .form-row__input--comment {
   width: 100%;
