@@ -182,6 +182,7 @@ export default {
 .hello {
   background-color: #ccc;
   padding-top: 100px;
+  height: 2000px;
 }
 .card {
   max-width: 30%;

@@ -8,10 +8,10 @@
       />
     </div>
     <div
-      class="card mx-auto mt-5 border-1 rounded-0 w-25 card-profile"
+      class="card mx-auto mt-5 border-1 rounded-0 w-25 card-profile p-5 border-0"
       v-if="formPost()"
     >
-      <h1 class="card__title" @click="userLocalStorage()">
+      <h1 class="card__title fs-2" @click="userLocalStorage()">
         Profil de <span class="text-uppercase text-primary">{{ pseudo }}</span>
       </h1>
       <div class="form-row text-center">
@@ -30,36 +30,43 @@
     </div>
     <div>
       <div
-        class="card mt-5 mx-auto"
+        class="card card-post mt-5 mx-auto rounded-0 border-0"
         :key="index"
         v-for="(post, index) in posts"
       >
-        <button
-          type="button"
-          class="btn btn-primary mb-5"
-          @click="updatePosts(post)"
-        >
-          Modifier mon post
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger mb-5"
-          @click="deletePosts(post)"
-        >
-          Supprimer mon post
-        </button>
-
+        <div class="d-flex justify-content-between card-post-header">
+          <h2 class="fs-6 card-container-row-header p-1">
+            Posté
+            {{ moment(post.createdPostAt).fromNow() }}
+          </h2>
+          <div>
+            <button
+              type="button"
+              class="btn mb-5 rounded-0"
+              @click="updatePosts(post)"
+            >
+              <i class="fas fa-exchange-alt"></i>
+            </button>
+            <button
+              type="button"
+              class="btn mb-5 rounded-0"
+              @click="deletePosts(post)"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-text p-1">
+            {{ post.comment }}
+          </p>
+        </div>
         <img
           :src="post.imageUrl"
           class="container__img"
           alt=""
           @click="test(post)"
         />
-        <div class="card-body">
-          <p class="card-text">
-            {{ post.comment }}
-          </p>
-        </div>
       </div>
     </div>
     <!-- ADMIN -->
@@ -218,13 +225,22 @@ export default {
 
 .profile {
   background-color: #ccc;
+  height: 10000px;
 }
 .card__action {
   text-decoration: none;
 }
+.card-post {
+  height: 383px;
+}
+.card-post-header {
+  height: 38px;
+  background-color: #ffd7d7;
+}
 .card {
-  max-width: 60%;
+  max-width: 25%;
   min-width: 350px;
+  padding: 0px;
 }
 
 .header {

@@ -41,42 +41,46 @@
             <i class="fas fa-share-square "></i>
           </button>
         </div>
-
-        <div class="container card-container">
-          <div class="row row-col-2 card-container-row">
-            <div
-              class="card mt-3 mx-auto active border-0 "
-              :key="index"
-              v-for="(post, index) in posts"
-              aria-label="post"
-            >
-              <div class="card-container-row-header-custom">
+      </div>
+      <div class="container card-container">
+        <div class="row row-col-2 card-container-row">
+          <div
+            class="card mt-3 mx-auto active border-0 "
+            :key="index"
+            v-for="(post, index) in posts"
+            aria-label="post"
+          >
+            <div class="card-container-row-header-custom ">
+              <div
+                class="card-container-row-header-custom__color d-flex justify-content-between align-items-center p-2"
+              >
                 <h2 class="fs-6 card-container-row-header ">
                   Posté par
                   <span class="heading-card-pseudo">{{ post.pseudo }}</span>
                   {{ moment(post.createdPostAt).fromNow() }}
                 </h2>
-                <div class="card-body">
-                  <p class="card-text fs-6">
-                    {{ post.comment }}
-                  </p>
-                </div>
+                <button
+                  v-if!="formPost()"
+                  class="btn button--reply rounded-0"
+                  type="button"
+                  @click="switchToReply(post)"
+                >
+                  <i class="fas fa-retweet"></i>
+                </button>
               </div>
 
-              <img
-                :src="post.imageUrl"
-                class="container__img rounded-0"
-                alt="Image du post"
-              />
-              <button
-                v-if!="formPost()"
-                class="btn btn-light button--reply rounded-0"
-                type="button"
-                @click="switchToReply(post)"
-              >
-                <i class="far fa-comment-alt "></i>
-              </button>
+              <div class="card-body">
+                <p class="card-text fs-6 p-3">
+                  {{ post.comment }}
+                </p>
+              </div>
             </div>
+
+            <img
+              :src="post.imageUrl"
+              class="container__img rounded-0"
+              alt="Image du post"
+            />
           </div>
         </div>
       </div>
@@ -207,7 +211,7 @@ label {
   padding: 9px;
   min-width: 349px;
   margin: auto;
-  width: 55%;
+  max-width: 100%;
 }
 .form-row__input--comment {
   width: 100%;
@@ -224,7 +228,6 @@ label {
 }
 .card-container-row-header-custom {
   background-color: white;
-  padding: 5px;
 }
 
 .card-body-reply {
@@ -235,7 +238,9 @@ label {
 .card-body {
   padding: 0px;
 }
-
+.card-container-row-header-custom__color {
+  background-color: #ffd7d7;
+}
 .hello--pseudo {
   color: #023583;
 }
